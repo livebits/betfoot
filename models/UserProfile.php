@@ -9,8 +9,9 @@ use Yii;
  *
  * @property int $id
  * @property int $user_id
- * @property string $name
- * @property string $info
+ * @property string $firstName
+ * @property string $lastName
+ * @property string $mobile
  * @property int $created_at
  * @property int $updated_at
  *
@@ -33,8 +34,10 @@ class UserProfile extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'created_at', 'updated_at'], 'integer'],
-            [['info'], 'string'],
-            [['name'], 'string', 'max' => 255],
+            [['firstName', 'lastName', 'mobile'], 'string'],
+            [['firstName', 'lastName'], 'string', 'max' => 255],
+            [['mobile'], 'string', 'max' => 12],
+            [['mobile'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -47,8 +50,9 @@ class UserProfile extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'user_id' => 'User ID',
-            'name' => 'Name',
-            'info' => 'Info',
+            'firstName' => 'نام',
+            'lastName' => 'نام خانوادگی',
+            'mobile' => 'موبایل',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

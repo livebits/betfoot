@@ -7,6 +7,7 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'timeZone' => 'Asia/Tehran',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
@@ -63,11 +64,20 @@ $config = [
                     \webvimark\modules\UserManagement\models\UserVisitLog::newVisitor($event->identity->id);
                 }
         ],
+        'view' => [
+            'theme' => [
+                'pathMap' => [
+                    '@vendor/webvimark/module-user-management/views/' => '@app/views/user-management/',
+                ],
+            ],
+        ],
     ],
     'modules'=>[
         'user-management' => [
             'class' => 'webvimark\modules\UserManagement\UserManagementModule',
             'enableRegistration' => true,
+            'useEmailAsLogin' => true,
+//            'emailConfirmationRequired' => false,
             'registrationFormClass' => 'app\models\RegistrationFormWithProfile',
 
             // Add regexp validation to passwords. Default pattern does not restrict user and can enter any set of characters.
@@ -87,13 +97,13 @@ $config = [
             'on beforeAction'=>function(yii\base\ActionEvent $event) {
                 if ( $event->action->uniqueId == 'user-management/auth/login' )
                 {
-                    $event->action->controller->layout = 'loginLayout.php';
+//                    $event->action->controller->layout = 'loginLayout.php';
                 };
 
-                if ( $event->action->uniqueId == 'user-management/auth/registration' )
-                {
-//                    $event->action->controller->layout = '@app/views/layouts/RegistrationForm';
-                };
+//                if ( $event->action->uniqueId == 'user-management/auth/registration' )
+//                {
+////                    $event->action->controller->layout = '@app/views/layouts/RegistrationForm';
+//                };
             },
         ],
     ],

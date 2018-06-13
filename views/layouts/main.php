@@ -3,7 +3,7 @@
 /* @var $content string */
 
 use app\assets\AppAsset;
-
+use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
 
@@ -23,8 +23,8 @@ AppAsset::register($this);
     <link rel="shortcut icon" href="<?= Yii::$app->homeUrl ?>/images/" type="image/png">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
-    <link href="/web/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/web/css/font-awesome.css" rel="stylesheet">
+<!--    <link href="/web/css/bootstrap.min.css" rel="stylesheet">-->
+<!--    <link href="/web/css/font-awesome.css" rel="stylesheet">-->
     <?php $this->head() ?>
 
 </head>
@@ -66,21 +66,38 @@ AppAsset::register($this);
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <form class="navbar-form navbar-right">
+
+                <?php
+                if(Yii::$app->user->isGuest) {
+                ?>
+
+                <?php $form = ActiveForm::begin([
+                    'id'      => 'login-form',
+                    'action'  => Yii::$app->getUrlManager()->createUrl('user-management/auth/login'),
+                    'options'=>['autocomplete'=>'off'],
+                    'validateOnBlur'=>false,
+                    'options' => [
+                        'class' => 'navbar-form navbar-right'
+                     ]
+                ]) ?>
                     <div class="form-group">
-                        <input type="text" name="username" class="form-control" placeholder="نام کاربری">
+                        <input type="text" name="LoginForm[username]" class="form-control" placeholder="نام کاربری">
                     </div>
                     <div class="form-group">
-                        <input type="password" name="password" class="form-control" placeholder="رمز عبور">
+                        <input type="password" name="LoginForm[password]" class="form-control" placeholder="رمز عبور">
                     </div>
                     <button type="submit" class="btn btn-success">ورود</button>
 
-                    <a href="">
+                    <a href="<?php echo Yii::$app->getUrlManager()->createUrl('user-management/auth/registration'); ?>">
                         <button type="button" class="btn yellow-btn">ثبت نام!</button>
                     </a>
-                </form>
+                <?php ActiveForm::end() ?>
+                <?php } else { ?>
+                    <div class="navbar-form">
+                        <a class="btn btn-primary" href="<?php echo Yii::$app->getUrlManager()->createUrl('site/logout'); ?>">خروج</a>
+                    </div>
+                <?php } ?>
             </div><!-- /.navbar-collapse -->
-
         </div>
     </nav>
 
@@ -97,13 +114,27 @@ AppAsset::register($this);
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active">
-                        <a href="#">Link</a>
+                    <?php
+                        $currentUrl = Yii::$app->urlManager->parseRequest(Yii::$app->request);
+                    ?>
+                    <li <?php if($currentUrl[0] == "site/index") { ?>class="active" <?php } ?> >
+                        <a href="<?php echo Yii::$app->getUrlManager()->createUrl('site/index'); ?>">صفحه اصلی</a>
                     </li>
-                    <li>
-                        <a href="#">Link</a>
+                    <li <?php
+                            if(explode('/', $currentUrl[0])[0] == "index") { ?>
+                                class="active"
+                            <?php } ?> >
+                        <a href="<?php echo Yii::$app->getUrlManager()->createUrl('index/inplay'); ?>">پیش بینی فوتبال</a>
                     </li>
-
+                    <li <?php if($currentUrl[0] == "site/help") { ?>class="active" <?php } ?>>
+                        <a href="<?php echo Yii::$app->getUrlManager()->createUrl('site/help'); ?>">راهنما</a>
+                    </li>
+                    <li <?php if($currentUrl[0] == "site/support") { ?>class="active" <?php } ?>>
+                        <a href="<?php echo Yii::$app->getUrlManager()->createUrl('site/support'); ?>">پشتیبانی</a>
+                    </li>
+                    <li <?php if($currentUrl[0] == "site/rules") { ?>class="active" <?php } ?>>
+                        <a href="<?php echo Yii::$app->getUrlManager()->createUrl('site/rules'); ?>">قوانین و آموزش</a>
+                    </li>
                 </ul>
             </div>
 
