@@ -174,8 +174,8 @@
 
                                     <table class="teams">
                                         <tr>
-                                            <td class="">
-                                                <span class="fa fa-eye"></span>
+                                            <td class="" style="padding-bottom: 10px;">
+                                                <span class="fa fa-star"></span>
                                             </td>
                                             <td class="match_home">
                                                 <?php
