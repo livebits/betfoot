@@ -314,7 +314,9 @@
 
         <ul class="bet-sample" style="visibility: hidden;">
             <li>
-                <span class="fa fa-times-circle delete" title="حذف"></span>
+                <div class="delete">
+                    <span class="fa fa-times-circle" title="حذف"></span>
+                </div>
                 <b class="home-team"></b>
                 <br>
                 <b class="away-team"></b>
@@ -365,11 +367,20 @@ $this->registerJs(<<<JS
     sumPrice = 0;
     sumOddsPrice = 0;
     pricesObject = [];
+    
+    $(document).ready(function(){
+        
     $('.game_odds').click(function () {
         
         item_index = $.inArray( $(this).attr("data-odds-id"), selected_ids);
         if(item_index == -1){
             data_odds_id = $(this).attr("data-odds-id");
+            
+            oddsValue = $(this).attr("data-odds");
+            if(oddsValue == 0){
+                return;
+            }
+            
             selected_ids.push(data_odds_id);
             $(this).css({
                 backgroundColor: '#fc0',
@@ -388,6 +399,67 @@ $this->registerJs(<<<JS
             $("ul[data-id=" + data_odds_id + "] .home-team").text($(this).attr("data-home"));
             $("ul[data-id=" + data_odds_id + "] .away-team").text($(this).attr("data-away"));
             $("ul[data-id=" + data_odds_id + "] .odds").text($(this).attr("data-odds"));
+            $("ul[data-id=" + data_odds_id + "] div.delete").attr('data-id', data_odds_id);
+            
+                $(".delete").click(function() {
+                    
+                    item_index = $.inArray( $(this).attr("data-id"), selected_ids);
+                    if(item_index != -1){
+                        
+                        data_odds_id = selected_ids[item_index];
+                        selected_ids.splice(item_index, 1);
+                        
+                        $('.game_odds[data-odds-id=' + data_odds_id + ']').css({
+                            backgroundColor: '#4b4b4b',
+                            color: '#fff'
+                        });
+                        
+                        if(selected_ids.length == 0){
+                            $(".nobet").css({display: 'table'})
+                        }
+                        
+                        odds = $("ul[data-id=" + data_odds_id + "] .odds").text();
+                        myPrice = $('ul[data-id=' + data_odds_id + '] input.input').val();
+                        priceWithOdds = Math.floor(myPrice * odds);
+                        
+                        sumPrice = 0;
+                        sumOddsPrice = 0;
+                        
+                        foundID = 0;
+                        for(i=0; i<pricesObject.length; i++){
+                            
+                            prevAdded = pricesObject[i].id == data_odds_id;
+                            
+                            if(prevAdded){
+                                foundID = i;
+                                break;
+                            }
+                        }
+                        pricesObject.splice(foundID, 1);
+                        
+                        sumPrice = 0;
+                        sumOddsPrice = 0;
+                        for(i=0; i<pricesObject.length; i++){
+                            
+                            array = pricesObject[i].data;
+                            sumPrice += array[0];
+                            sumOddsPrice += array[1];
+                        }
+                        
+                        $("ul[data-id=" + data_odds_id + "]").remove();
+                        
+                        if(selected_ids.length == 0){
+                            
+                            $('div.bettotal').remove();
+                        } else {
+                        
+                            $('ul.bettotal span.totalstake').text(sumPrice.toLocaleString());
+                            $('ul.bettotal span.totalwin').text(sumOddsPrice.toLocaleString());
+                        }
+                    }
+                });
+
+            
             
             $("ul[data-id=" + data_odds_id + "] input.input").attr('data-odd-value', $(this).attr("data-odds"));
             $("ul[data-id=" + data_odds_id + "] input.input").attr('data-odd-id', data_odds_id);
@@ -533,6 +605,8 @@ $this->registerJs(<<<JS
                 $('ul.bettotal span.totalwin').text(sumOddsPrice.toLocaleString());
             }
         }
+    });
+    
     });
 JS
 );
