@@ -163,7 +163,7 @@ $this->title = "پیش بینی فوتبال";
                                 <tr class="match_group_header">
 
                                     <td style="width:65%;text-align: right;">
-                                        <img src="image/countries/<?= $league_country_id ?>.svg"
+                                        <img src="/image/countries/<?= $league_country_id ?>.svg"
                                              style="width: 15px;height: 15px;">
                                         <span class="match_group_name">
                                             <?= $league_name ?>
