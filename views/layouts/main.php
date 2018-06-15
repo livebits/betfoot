@@ -3,7 +3,7 @@
 /* @var $content string */
 
 use app\assets\AppAsset;
-
+use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
 
@@ -15,7 +15,6 @@ AppAsset::register($this);
       class="js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths rtl translated-rtl">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <meta name="description" content="">
@@ -66,21 +65,43 @@ AppAsset::register($this);
 
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <form class="navbar-form navbar-right">
+
+                <?php
+                if(Yii::$app->user->isGuest) {
+                ?>
+
+                <?php $form = ActiveForm::begin([
+                    'id'      => 'login-form',
+                    'action'  => Yii::$app->getUrlManager()->createUrl('user-management/auth/login'),
+                    'options'=>['autocomplete'=>'off'],
+                    'validateOnBlur'=>false,
+                    'options' => [
+                        'class' => 'navbar-form navbar-right'
+                     ]
+                ]) ?>
                     <div class="form-group">
-                        <input type="text" name="username" class="form-control" placeholder="نام کاربری">
+                        <input type="text" name="LoginForm[username]" class="form-control" placeholder="نام کاربری">
                     </div>
                     <div class="form-group">
-                        <input type="password" name="password" class="form-control" placeholder="رمز عبور">
+                        <input type="password" name="LoginForm[password]" class="form-control" placeholder="رمز عبور">
                     </div>
                     <button type="submit" class="btn btn-success">ورود</button>
 
-                    <a href="">
+                    <a href="<?php echo Yii::$app->getUrlManager()->createUrl('user-management/auth/registration'); ?>">
                         <button type="button" class="btn yellow-btn">ثبت نام!</button>
                     </a>
-                </form>
-            </div><!-- /.navbar-collapse -->
+                <?php ActiveForm::end() ?>
+                <?php } else { ?>
+                    <div class="navbar-form btn-group">
+                        <a class="btn btn-danger" href="<?php echo Yii::$app->getUrlManager()->createUrl('site/logout'); ?>">خروج</a>
 
+                        <a class="btn btn-default" href="<?php echo Yii::$app->getUrlManager()->createUrl('user'); ?>">حساب کاربری</a>
+                        <a class="btn btn-default" href="<?php echo Yii::$app->getUrlManager()->createUrl('user?action=charge'); ?>">شارژ حساب</a>
+                        <button class="btn btn-default btn-demo">موجودی حساب: <?= isset(Yii::$app->session->get('userInfo')['wallet']) ? Yii::$app->session->get('userInfo')['wallet'] : 0 ?> تومان</button>
+                        <button class="btn btn-default btn-demo"><?= Yii::$app->session->get('userInfo')['firstName'] ?> عزیز</button>
+                    </div>
+                <?php } ?>
+            </div><!-- /.navbar-collapse -->
         </div>
     </nav>
 
@@ -97,13 +118,27 @@ AppAsset::register($this);
 
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="active">
-                        <a href="#">Link</a>
+                    <?php
+                        $currentUrl = Yii::$app->urlManager->parseRequest(Yii::$app->request);
+                    ?>
+                    <li <?php if($currentUrl[0] == "site/index") { ?>class="active" <?php } ?> >
+                        <a href="<?php echo Yii::$app->getUrlManager()->createUrl('site/index'); ?>">صفحه اصلی</a>
                     </li>
-                    <li>
-                        <a href="#">Link</a>
+                    <li <?php
+                            if(explode('/', $currentUrl[0])[0] == "index") { ?>
+                                class="active"
+                            <?php } ?> >
+                        <a href="<?php echo Yii::$app->getUrlManager()->createUrl('index/inplay'); ?>">پیش بینی فوتبال</a>
                     </li>
-
+                    <li <?php if($currentUrl[0] == "site/help") { ?>class="active" <?php } ?>>
+                        <a href="<?php echo Yii::$app->getUrlManager()->createUrl('site/help'); ?>">راهنما</a>
+                    </li>
+                    <li <?php if($currentUrl[0] == "site/support") { ?>class="active" <?php } ?>>
+                        <a href="<?php echo Yii::$app->getUrlManager()->createUrl('site/support'); ?>">پشتیبانی</a>
+                    </li>
+                    <li <?php if($currentUrl[0] == "site/rules") { ?>class="active" <?php } ?>>
+                        <a href="<?php echo Yii::$app->getUrlManager()->createUrl('site/rules'); ?>">قوانین و آموزش</a>
+                    </li>
                 </ul>
             </div>
 
@@ -118,7 +153,7 @@ AppAsset::register($this);
 
 
     <!-- Footer -->
-    <footer class="page-footer" style="background: white;">
+    <footer class="page-footer">
 
         <!-- Footer Links -->
         <div class="container-fluid text-center">
@@ -155,7 +190,8 @@ AppAsset::register($this);
 
         <!-- Copyright -->
         <div class="footer-copyright text-center">
-            © 2018 حق کپی رایت برای سایت محفوظ می باشد.
+            حق حقوق متعلق به سایت می باشد.
+            © 1397 - 2018
         </div>
         <!-- Copyright -->
 

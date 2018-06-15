@@ -9,8 +9,10 @@ use Yii;
  *
  * @property int $id
  * @property int $user_id
- * @property string $name
- * @property string $info
+ * @property string $firstName
+ * @property string $lastName
+ * @property string $mobile
+ * @property string $wallet
  * @property int $created_at
  * @property int $updated_at
  *
@@ -26,6 +28,30 @@ class UserProfile extends \yii\db\ActiveRecord
         return 'user_profile';
     }
 
+    public static function updateUserWallet($amount)
+    {
+        $myProfile = UserProfile::find()->where('user_id=' . Yii::$app->user->id)->one();
+
+        if ($myProfile->wallet){
+
+            $newAmount = $myProfile->wallet + $amount;
+        } else {
+            $newAmount = $amount;
+        }
+
+        UserProfile::updateAll(['wallet' => $newAmount], 'user_id=' . Yii::$app->user->id);
+
+        $userProfile = \app\models\UserProfile::find()
+            ->where('user_id=' . Yii::$app->user->id)
+            ->asArray()
+            ->one();
+
+        if($userProfile){
+            $session = Yii::$app->session;
+            $session->set('userInfo', $userProfile);
+        }
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -33,8 +59,10 @@ class UserProfile extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'created_at', 'updated_at'], 'integer'],
-            [['info'], 'string'],
-            [['name'], 'string', 'max' => 255],
+            [['firstName', 'lastName', 'mobile'], 'string'],
+            [['firstName', 'lastName'], 'string', 'max' => 255],
+            [['mobile'], 'string', 'max' => 12],
+            [['mobile'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
@@ -47,8 +75,9 @@ class UserProfile extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'user_id' => 'User ID',
-            'name' => 'Name',
-            'info' => 'Info',
+            'firstName' => 'نام',
+            'lastName' => 'نام خانوادگی',
+            'mobile' => 'موبایل',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

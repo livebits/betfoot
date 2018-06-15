@@ -3,9 +3,9 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `profile`.
+ * Handles the creation of table `transaction`.
  */
-class m180504_065729_create_profile_table extends Migration
+class m180615_145729_create_transaction_table extends Migration
 {
     /**
      * {@inheritdoc}
@@ -17,19 +17,19 @@ class m180504_065729_create_profile_table extends Migration
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_general_ci ENGINE=InnoDB';
         }
 
-        $this->createTable('user_profile', [
+        $this->createTable('transaction', [
             'id' => 'pk',
             'user_id' => 'int',
 
-            'name' => 'string',
-            'info' => 'text',
+            'amount' => $this->bigInteger(),
+            'authority' => 'string',
+            'status' => 'string',
 
             'created_at' => 'int',
-            'updated_at' => 'int',
         ], $tableOptions);
 
 
-        $this->addForeignKey('fk_user_profile_user_id', 'user_profile', 'user_id', 'user', 'id', 'CASCADE', 'CASCADE');
+        $this->addForeignKey('fk_transaction_user_id', 'transaction', 'user_id', 'user', 'id', 'CASCADE', 'CASCADE');
     }
 
     /**
@@ -37,8 +37,8 @@ class m180504_065729_create_profile_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropForeignKey('fk_user_profile_user_id', 'user_profile');
+        $this->dropForeignKey('fk_transaction_user_id', 'transaction');
 
-        $this->dropTable('user_profile');
+        $this->dropTable('transaction');
     }
 }
