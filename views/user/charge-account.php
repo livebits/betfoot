@@ -20,6 +20,12 @@ use yii\helpers\Html;
             <div class="alert alert-danger" role="alert">پرداخت با خطا رو به رو شد، لطفا مجددا تلاش بفرمایید.</div>
 
             <?php
+        } else if ($params == "charge") {
+            ?>
+
+            <div class="alert alert-danger" role="alert">اعتبار کیف پول کافی نیست، ابتدا حساب خود را شارژ کنید. </div>
+
+            <?php
         }
     ?>
     <p>

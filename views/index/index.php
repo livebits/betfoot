@@ -1,4 +1,7 @@
 <?php
+use yii\bootstrap\ActiveForm;
+
+
 /* @var $this yii\web\View */
 
 $this->title = "پیش بینی فوتبال";
@@ -50,11 +53,11 @@ $this->title = "پیش بینی فوتبال";
                             <div class="pc-container pm-tabs pc-component ui-tabs days">
                                 <a href="<?=Yii::$app->getUrlManager()->createUrl('index/inplay')?>" style="color:#eee;"
                                    class="sgame"><span>پیشبینی زنده</span></a>
-                                <a href="<?=Yii::$app->getUrlManager()->createUrl('index/match-list')?>&date=<?= (new \DateTime('now'))->format('Y-m-d') ?>"
+                                <a href="<?=Yii::$app->getUrlManager()->createUrl('index/match-list')?>?date=<?= (new \DateTime('now'))->format('Y-m-d') ?>"
                                    style="color:#eee;padding:5px 0px;margin-left:0px; max-width:90px !important"
                                    class="sgame"><span>بازیهای امروز</span></a>
 
-                                <a href="<?=Yii::$app->getUrlManager()->createUrl('index/match-list')?>&date=<?= (new \DateTime('now + 1day'))->format('Y-m-d') ?>"
+                                <a href="<?=Yii::$app->getUrlManager()->createUrl('index/match-list')?>?date=<?= (new \DateTime('now + 1day'))->format('Y-m-d') ?>"
                                    style="color:#eee;padding:5px 0px;margin-left:0px; max-width:90px !important"
                                    class="sgame"><span>بازیهای فردا</span></a>
 
@@ -261,7 +264,7 @@ $this->title = "پیش بینی فوتبال";
                                 <td style="width:10%;">
                                     <div class="btn-odds game_odds" data-odds-id="<?= $fixture->fixture_id . '1' ?>"
                                          data-odds="<?= $home_odds ?>" data-fixture="<?= $fixture->fixture_id ?>"
-                                            data-home="<?=$localTeam_name?>" data-away="<?=$visitorTeam_name?>">
+                                         data-home="<?=$localTeam_name?>" data-away="<?=$visitorTeam_name?>">
                                         <?php
                                         if ($home_odds == 0) {
                                             echo '<span class="fa fa-lock"></span>';
@@ -353,14 +356,20 @@ $this->title = "پیش بینی فوتبال";
                 </li>
             </ul>
             <div style="padding:30px 0 10px 0;text-align:center;">
-                <input class="btn btn-block placebet" value="ثبت شرط" type="button">
+                <form action="<?=Yii::$app->getUrlManager()->createUrl('user/predict')?>"
+                      method="post">
+                    <input type="hidden" name="_csrf" value="<?=\Yii::$app->request->csrfToken?>">
+                    <input type="hidden" class="userPredicts" name="userPredicts" value="">
+
+                    <input class="btn btn-block placebet" value="ثبت شرط" type="submit">
+                </form>
             </div>
         </div>
     </div>
 
-<script type="text/javascript">
-    _csrf = "<?=\Yii::$app->request->csrfToken?>";
-</script>
+    <script type="text/javascript">
+        _csrf = "<?=\Yii::$app->request->csrfToken?>";
+    </script>
 
 <?php
 $this->registerJs(<<<JS
@@ -486,11 +495,13 @@ $this->registerJs(<<<JS
                 $(".bettotal span.totalwin").text(0);
                 $('.bettotal input.placebet').click(function() {
         
-                    $.post("?r=predict/set-bets", 
-                        {"data": JSON.stringify(pricesObject), '_csrf': _csrf}, 
-                        function(result){
-                            
-                    })
+                    // $.post("/user/predict", 
+                    //     {"data": JSON.stringify(pricesObject), '_csrf': _csrf}, 
+                    //     function(result){
+                    //        
+                    // })
+                    
+                    $('input[name=userPredicts]').attr('value', JSON.stringify(pricesObject));
                 });
             }
             

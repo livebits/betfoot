@@ -18,54 +18,6 @@ use SportMonks\API\Utilities\Auth;
 
 class IndexController extends \yii\web\Controller
 {
-//    public function actionIndex()
-//    {
-//        // Default values. Can be initialized without arguments.
-//        $scheme = 'https';
-//        $hostname = 'sportmonks.com';
-//        $subDomain = 'soccer';
-//        $port = 443;
-//
-//        // Auth.
-//        $token = Yii::$app->params['betfoot_token'];
-//
-//        $client = new SportMonksAPI();
-//        // or
-//        //$client = new SportMonksAPI($scheme, $hostname, $subDomain, $port);
-//
-//        // Set auth.
-//        $client->setAuth(Auth::BASIC, [
-//            'token' => $token
-//        ]);
-//
-//
-////        do {
-//        $date = new \DateTime('now');
-//        $games = $client->fixtures()->date()->day($date);
-////            $games = $client->teams()->find($games[0]->visitorteam_id, true);
-//        $id = $games[1]->id;
-//        $games = $client->fixtures()->odds($id);
-//
-//        foreach ($games as $game) {
-//
-//            $odds_obj = new Odds();
-//            $odds_obj->odds_id = $game->id;
-//            $odds_obj->fixture_id = $id;
-//            $odds_obj->name = $game->name;
-//            $odds_obj->bookmaker = json_encode($game->bookmaker);
-//
-////                var_export($odds_obj);die();
-////                $odds_obj->save();
-//
-////                var_export($live_score_obj);die();
-////                $live_score_obj->save();
-//        }
-//
-//
-////        } while ($client->leagues()->nextPage());
-//
-//        return $this->render('index');
-//    }
 
     public function actionMatchList($date)
     {
@@ -763,11 +715,5 @@ class IndexController extends \yii\web\Controller
 
         $is_inplay = true;
         return $this->render('index', compact('fixtures', 'is_inplay'));
-    }
-
-    public function actionGetBets(){
-
-        $request = yii::$app->request;
-        var_export($request->post());
     }
 }
