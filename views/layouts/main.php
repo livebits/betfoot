@@ -165,19 +165,19 @@ AppAsset::register($this);
                         <div class="table center-block">
                             <ul id="horizontal-list">
                                 <li>
-                                    <img src="image/premier-league.png" class="league-icon" alt="premier-league" />
+                                    <img src="<?=Yii::$app->homeUrl ?>/image/premier-league.png" class="league-icon" alt="premier-league" />
                                 </li>
                                 <li>
-                                    <img src="image/premier-league.png" class="league-icon" alt="premier-league" />
+                                    <img src="<?=Yii::$app->homeUrl ?>/image/premier-league.png" class="league-icon" alt="premier-league" />
                                 </li>
                                 <li>
-                                    <img src="image/premier-league.png" class="league-icon" alt="premier-league" />
+                                    <img src="<?=Yii::$app->homeUrl ?>/image/premier-league.png" class="league-icon" alt="premier-league" />
                                 </li>
                                 <li>
-                                    <img src="image/premier-league.png" class="league-icon" alt="premier-league" />
+                                    <img src="<?=Yii::$app->homeUrl ?>/image/premier-league.png" class="league-icon" alt="premier-league" />
                                 </li>
                                 <li>
-                                    <img src="image/premier-league.png" class="league-icon" alt="premier-league" />
+                                    <img src="<?=Yii::$app->homeUrl ?>/image/premier-league.png" class="league-icon" alt="premier-league" />
                                 </li>
                             </ul>
                         </div>

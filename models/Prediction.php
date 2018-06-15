@@ -49,13 +49,13 @@ class Prediction extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'user_id' => 'User ID',
-            'selected_team_id' => 'Selected Team ID',
+            'selected_team_id' => 'نوع شرط',
             'fixture_id' => 'Fixture ID',
-            'user_price' => 'User Price',
-            'win_price' => 'Win Price',
-            'status' => 'Status',
+            'user_price' => 'مبلغ شرط',
+            'win_price' => 'مبلغ برد',
+            'status' => 'وضعیت پیشبینی',
             'updated_at' => 'Updated At',
-            'created_at' => 'Created At',
+            'created_at' => 'زمان پیشبینی',
         ];
     }
 
@@ -65,5 +65,10 @@ class Prediction extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    public function getFixture()
+    {
+        return $this->hasOne(Fixture::className(), ['fixture_id' => 'fixture_id']);
     }
 }

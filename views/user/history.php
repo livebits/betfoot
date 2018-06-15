@@ -10,12 +10,13 @@ use yii\data\ActiveDataProvider;
 
     <?php
 
-        $transactions = \app\models\Transaction::find()
+        $predictions = \app\models\Prediction::find()
+            ->with('fixture')
             ->where('user_id='. Yii::$app->user->id)
             ->orderBy('id DESC');
 
     $dataProvider = new ActiveDataProvider([
-        'query' => $transactions,
+        'query' => $predictions,
         'pagination' => [
             'pageSize' => 20,
         ],
@@ -25,22 +26,51 @@ use yii\data\ActiveDataProvider;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
-                'attribute' => 'amount',
+                'label' => '',
+                'value' => function ($model) {
+                    $visitor_team = \app\models\Team::find()->where('team_id='.$model->fixture->visitorteam_id)->one();
+                    $local_team = \app\models\Team::find()->where('team_id='.$model->fixture->localteam_id)->one();
+
+                    $text = 'میزبان: ' . $local_team->name;
+                    $text .= "\r\n" . 'مهمان: ' . $visitor_team->name;
+
+                    return $text;
+                }
+            ],
+            [
+                'attribute' => 'selected_team_id',
                 'value' => function ($data) {
-                    return number_format($data->amount);
+                    if($data->fixture->localteam_id == $data->selected_team_id){
+                        return 'برد میزبان';
+
+                    } else if($data->fixture->visitorteam_id == $data->selected_team_id){
+                        return 'برد مهمان';
+
+                    } else {
+                        return 'مساوی';
+                    }
+                }
+            ],
+            [
+                'attribute' => 'user_price',
+                'value' => function ($data) {
+                    return number_format($data->user_price);
+                },
+            ],
+            [
+                'attribute' => 'win_price',
+                'value' => function ($data) {
+                    return number_format($data->win_price);
                 },
             ],
             [
                 'attribute' => 'status',
                 'value' => function ($data) {
-                    if ($data->status == "started") {
-                        return 'در حال بررسی';
+                    if ($data->status == "notCalc") {
+                        return 'محاسبه نشده';
 
-                    } else if ($data->status == "ok") {
-                        return 'تایید شده';
-
-                    } else if ($data->status == "nok") {
-                        return 'رد شده';
+                    } else if ($data->status == "calc") {
+                        return 'محاسبه شده';
 
                     }
                 },
@@ -48,7 +78,7 @@ use yii\data\ActiveDataProvider;
             [
                 'attribute' => 'created_at',
                 'value' => function ($data) {
-                    return \app\components\Jdf::jdate('Y/m/d', $data->created_at);
+                    return \app\components\Jdf::jdate('Y/m/d H:i:s', $data->created_at);
                 },
             ],
         ],

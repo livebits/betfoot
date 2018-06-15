@@ -77,9 +77,12 @@ $this->title = "پیش بینی فوتبال";
                     <table class="table match_list table-responsive">
                         <?php
 
-                        $myPredictions = \app\models\Prediction::find()
-                            ->where('user_id=' . Yii::$app->user->id)
-                            ->all();
+                        $myPredictions = [];
+                        if(!Yii::$app->user->isGuest) {
+                            $myPredictions = \app\models\Prediction::find()
+                                ->where('user_id=' . Yii::$app->user->id)
+                                ->all();
+                        }
 
                         $league_id = 0;
                         foreach ($fixtures as $fixture) {

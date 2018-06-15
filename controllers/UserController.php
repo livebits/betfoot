@@ -48,8 +48,8 @@ class UserController extends \yii\web\Controller
 
         $userInfo = UserProfile::find()->where('user_id=' . Yii::$app->user->id)->one();
 
-        if($sumPrices < $userInfo->wallet) {
-            return $this->redirect(Yii::$app->getUrlManager()->createUrl('user?action=charge$params=charge'));
+        if(!isset($userInfo->wallet) || $sumPrices > $userInfo->wallet) {
+            return $this->redirect(Yii::$app->getUrlManager()->createUrl('user?action=charge&params=charge'));
         }
 
         $fixtures_ids = "";

@@ -43,7 +43,8 @@ class RegistrationFormWithProfile extends RegistrationForm
     public function registerUser($performValidation = true){
         $validations = $this->validateProfile();
         if ($validations == null) {
-            parent::registerUser($performValidation);
+            return parent::registerUser($performValidation);
+//            return redire
         } else {
             foreach ($validations as $validation_key => $validation_value) {
                 $this->addError($validation_key, $validation_value[0]);
@@ -57,6 +58,7 @@ class RegistrationFormWithProfile extends RegistrationForm
         $model->firstName = $this->firstName;
         $model->lastName = $this->lastName;
         $model->mobile = $this->mobile;
+        $model->wallet = 0;
 
         if ($model->validate()) {
             return null;

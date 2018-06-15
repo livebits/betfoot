@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
     }
 </style>
 
-<div class="container" id="login-wrapper">
+<div class="container" id="login-wrapper" style="color: black;">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
@@ -52,7 +52,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     <?= $form->field($model, 'repeat_password')->passwordInput(['maxlength' => 255, 'autocomplete'=>'off']) ?>
 
                     <?= $form->field($model, 'captcha')->widget(Captcha::className(), [
-                        'template' => '<div class="row"><div class="col-sm-3"></div><div class="col-sm-3">{image}</div><div class="col-sm-3">{input}</div><div class="col-sm-3"></div></div>',
+                        'template' => '<div class="row"><div class="col-sm-3"></div><div class="col-sm-3">{image}</div><div class="col-sm-4">{input}</div><div class="col-sm-2"></div></div>',
                         'captchaAction'=>['/user-management/auth/captcha']
                     ]) ?>
 

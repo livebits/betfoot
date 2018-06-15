@@ -74,6 +74,11 @@ $config = [
                 }
 
                 \webvimark\modules\UserManagement\models\UserVisitLog::newVisitor($event->identity->id);
+            },
+
+            'on afterRegistration' => function($event) {
+
+//                return redir
             }
         ],
         'view' => [
