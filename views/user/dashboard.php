@@ -54,7 +54,7 @@
                             echo $this->render('account-info', compact('params'));
 
                         } else if($action == "history"){
-//                            echo $this->render('account-info', compact('params'));
+                            echo $this->render('history', compact('params'));
 
                         }  else if($action == "transactions"){
                             echo $this->render('transactions', compact('params'));

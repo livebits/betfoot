@@ -76,8 +76,22 @@ $this->title = "پیش بینی فوتبال";
 
                     <table class="table match_list table-responsive">
                         <?php
+
+                        $myPredictions = \app\models\Prediction::find()
+                            ->where('user_id=' . Yii::$app->user->id)
+                            ->all();
+
                         $league_id = 0;
                         foreach ($fixtures as $fixture) {
+
+                            $is_predicted = false;
+                            foreach ($myPredictions as $myPrediction) {
+
+                                if ($myPrediction->fixture_id == $fixture->fixture_id){
+                                    $is_predicted = true;
+                                    break;
+                                }
+                            }
 
                             //detect game status
                             if (!$is_inplay && $fixture->status == "LIVE") {
@@ -262,6 +276,7 @@ $this->title = "پیش بینی فوتبال";
                                 ?>
 
                                 <td style="width:10%;">
+                                    <?php if(!$is_predicted){ ?>
                                     <div class="btn-odds game_odds" data-odds-id="<?= $fixture->fixture_id . '1' ?>"
                                          data-odds="<?= $home_odds ?>" data-fixture="<?= $fixture->fixture_id ?>"
                                          data-home="<?=$localTeam_name?>" data-away="<?=$visitorTeam_name?>">
@@ -273,8 +288,10 @@ $this->title = "پیش بینی فوتبال";
                                         }
                                         ?>
                                     </div>
+                                    <?php } ?>
                                 </td>
                                 <td style="width:10%;">
+                                    <?php if(!$is_predicted){ ?>
                                     <div class="btn-odds game_odds" data-odds-id="<?= $fixture->fixture_id . 'X' ?>"
                                          data-odds="<?= $X_odds ?>" data-fixture="<?= $fixture->fixture_id ?>"
                                          data-home="<?=$localTeam_name?>" data-away="<?=$visitorTeam_name?>">
@@ -286,8 +303,10 @@ $this->title = "پیش بینی فوتبال";
                                         }
                                         ?>
                                     </div>
+                                    <?php } ?>
                                 </td>
                                 <td style="width:10%;">
+                                    <?php if(!$is_predicted){ ?>
                                     <div class="btn-odds game_odds" data-odds-id="<?= $fixture->fixture_id . '2' ?>"
                                          data-odds="<?= $away_odds ?>" data-fixture="<?= $fixture->fixture_id ?>"
                                          data-home="<?=$localTeam_name?>" data-away="<?=$visitorTeam_name?>">
@@ -299,6 +318,7 @@ $this->title = "پیش بینی فوتبال";
                                         }
                                         ?>
                                     </div>
+                                    <?php } ?>
                                 </td>
                                 <td style="width:5%;">
                                     <div class="btn-odds btn-odds-more hidden" title="شرط های بیشتر">+</div>
