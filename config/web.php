@@ -91,7 +91,7 @@ $config = [
         'zarinpal' => [
             'class' => 'amirasaran\zarinpal\Zarinpal',
             'merchant_id' => '688d7c96-6f39-11e8-b7f5-005056a205be',
-            'callback_url' => 'http://afraa.tk/payment/verify',
+            'callback_url' => 'http://afraa.tk/web/payment/verify',
 //            'testing' => true, // if you are testing zarinpal set it true, else set to false
         ],
     ],
