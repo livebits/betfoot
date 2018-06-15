@@ -3,7 +3,7 @@
 namespace app\controllers;
 use yii\filters\AccessControl;
 
-class PredictController extends \yii\web\Controller
+class UserController extends \yii\web\Controller
 {
 
     public function behaviors()
@@ -15,7 +15,7 @@ class PredictController extends \yii\web\Controller
                 'rules' => [
                     [
                         'allow' => true,
-                        'actions' => ['predict'],
+                        'actions' => ['predict', 'index'],
                         'roles' => ['@'],
                     ],
                 ],
@@ -23,9 +23,9 @@ class PredictController extends \yii\web\Controller
         ];
     }
 
-    public function actionIndex()
+    public function actionIndex($action = '', $params = '')
     {
-        return $this->render('index');
+        return $this->render('dashboard', compact('action', 'params'));
     }
 
     public function actionPredict()

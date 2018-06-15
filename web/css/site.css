@@ -7,6 +7,11 @@ body {
     font-family: 'IRANSans', Helvetica, sans-serif;
     background-color: black;
     direction: rtl;
+    color: #ffffff;
+}
+
+.btn-demo{
+    cursor: default;
 }
 
 .wrap {
@@ -52,6 +57,10 @@ a.asc:after, a.desc:after {
     font-weight: normal;
     line-height: 1;
     padding-left: 5px;
+}
+
+a, a:active, a:focus {
+    outline: none;
 }
 
 a.asc:after {
@@ -389,3 +398,69 @@ ul.bettotal {
 .bettotal .totalwin {
     float: left;
 }
+
+.page-footer {
+    background-color: #222222;
+}
+.dash-menu-btn {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    text-align: right;
+    padding-right: 10px;
+    cursor: pointer;
+    color: #ffffff;
+}
+
+.menu-divider {
+    border-bottom: 1px solid #333;
+    margin: 0 10px;
+}
+
+.dash-menu-btn:hover, .dash-menu-btn a:hover {
+    color: #f7cc00;
+}
+
+.dash-menu-btn a {
+    text-decoration: none;
+    color: white;
+    width: 100%;
+    display: block;
+}
+
+.dash-menu-btn .active {
+    color: #f7cc00;
+}
+
+
+.charge-box {
+    padding: 20px 10px 10px;
+}
+
+.charge-box div.input-group {
+    direction: ltr;
+    width: 400px;
+    margin: 30px auto 10px auto;
+}
+.account-box {
+    padding: 20px 10px 10px;
+    color: #333333;
+    height: 400px;
+}
+.account-box .panel-body {
+    font-weight: bolder;
+    text-align: center;
+}
+
+.transaction-box {
+    padding: 20px 10px 10px;
+}
+
+.transaction-box table tr:nth-of-type(2n+1){
+    background-color: #333 !important;
+    color: #333;
+}
+
+/*.transaction-box table tr {*/
+    /*color: #f7cc00;*/
+/*}*/

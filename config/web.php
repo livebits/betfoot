@@ -7,6 +7,7 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'language' => 'fa-IR',
     'timeZone' => 'Asia/Tehran',
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
@@ -49,7 +50,7 @@ $config = [
             // Disable index.php
             'showScriptName' => false,
             // Disable r= routes
-            'enablePrettyUrl' => false,
+            'enablePrettyUrl' => true,
             'rules' => array(
                 '<controller:\w+>/<id:\d+>' => '<controller>/view',
                 '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
@@ -61,6 +62,17 @@ $config = [
 
             // Comment this if you don't want to record user logins
             'on afterLogin' => function($event) {
+
+                    $userProfile = \app\models\UserProfile::find()
+                        ->where('user_id=' . Yii::$app->user->id)
+                        ->asArray()
+                        ->one();
+
+                    if($userProfile){
+                        $session = Yii::$app->session;
+                        $session->set('userInfo', $userProfile);
+                    }
+
                     \webvimark\modules\UserManagement\models\UserVisitLog::newVisitor($event->identity->id);
                 }
         ],
@@ -70,6 +82,12 @@ $config = [
                     '@vendor/webvimark/module-user-management/views/' => '@app/views/user-management/',
                 ],
             ],
+        ],
+        'zarinpal' => [
+            'class' => 'amirasaran\zarinpal\Zarinpal',
+            'merchant_id' => '688d7c96-6f39-11e8-b7f5-005056a205be',
+            'callback_url' => 'http://afraa.tk/payment/verify',
+            'testing' => true, // if you are testing zarinpal set it true, else set to false
         ],
     ],
     'modules'=>[

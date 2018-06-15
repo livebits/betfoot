@@ -1,5 +1,7 @@
 <?php
 /* @var $this yii\web\View */
+
+$this->title = "پیش بینی فوتبال";
 ?>
     <div class="container center-content">
 
@@ -46,13 +48,13 @@
                                 </div>
                             </h1>
                             <div class="pc-container pm-tabs pc-component ui-tabs days">
-                                <a href="?r=index/inplay" style="color:#eee;"
+                                <a href="<?=Yii::$app->getUrlManager()->createUrl('index/inplay')?>" style="color:#eee;"
                                    class="sgame"><span>پیشبینی زنده</span></a>
-                                <a href="?r=index/match-list&date=<?= (new \DateTime('now'))->format('Y-m-d') ?>"
+                                <a href="<?=Yii::$app->getUrlManager()->createUrl('index/match-list')?>&date=<?= (new \DateTime('now'))->format('Y-m-d') ?>"
                                    style="color:#eee;padding:5px 0px;margin-left:0px; max-width:90px !important"
                                    class="sgame"><span>بازیهای امروز</span></a>
 
-                                <a href="?r=index/match-list&date=<?= (new \DateTime('now + 1day'))->format('Y-m-d') ?>"
+                                <a href="<?=Yii::$app->getUrlManager()->createUrl('index/match-list')?>&date=<?= (new \DateTime('now + 1day'))->format('Y-m-d') ?>"
                                    style="color:#eee;padding:5px 0px;margin-left:0px; max-width:90px !important"
                                    class="sgame"><span>بازیهای فردا</span></a>
 
@@ -61,7 +63,7 @@
                                 <!--                               style="color:#eee;padding:5px 0px;margin-left:0px; max-width:90px !important"-->
                                 <!--                               class="sgame"><span>چهارشنبه</span></a>-->
 
-                                <a href="" class="no-hover"
+                                <a href="<?php echo Yii::$app->getUrlManager()->createUrl('user'); ?>?action=history" class="no-hover"
                                    style="padding:5px 10px !important;background:#fc0;border:1px solid #fc0;color:#000;border-radius:4px;"><span>سابقه پیش بینی</span></a>
                             </div>
                         </div>
@@ -69,7 +71,7 @@
                 </div>
                 <div class="body">
 
-                    <table class="table match_list">
+                    <table class="table match_list table-responsive">
                         <?php
                         $league_id = 0;
                         foreach ($fixtures as $fixture) {
@@ -296,7 +298,7 @@
                                     </div>
                                 </td>
                                 <td style="width:5%;">
-                                    <div class="btn-odds btn-odds-more" title="شرط های بیشتر">+</div>
+                                    <div class="btn-odds btn-odds-more hidden" title="شرط های بیشتر">+</div>
                                 </td>
 
                             </tr>

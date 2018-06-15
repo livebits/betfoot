@@ -8,6 +8,8 @@ use webvimark\modules\UserManagement\components\GhostHtml;
 use webvimark\modules\UserManagement\UserManagementModule;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
+
+$this->title = "ورود به حساب کاربری";
 ?>
 
 <div class="container" id="login-wrapper">
@@ -50,7 +52,7 @@ use yii\helpers\Html;
 						</div>
 						<div class="col-sm-12 text-right">
 							<?= GhostHtml::a(
-								UserManagementModule::t('front', "Forgot password ?"),
+								'فراموشی رمزعبور',
 								['/user-management/auth/password-recovery']
 							) ?>
 						</div>

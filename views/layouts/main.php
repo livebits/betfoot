@@ -15,7 +15,6 @@ AppAsset::register($this);
       class="js flexbox flexboxlegacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths rtl translated-rtl">
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <meta name="description" content="">
@@ -93,8 +92,13 @@ AppAsset::register($this);
                     </a>
                 <?php ActiveForm::end() ?>
                 <?php } else { ?>
-                    <div class="navbar-form">
-                        <a class="btn btn-primary" href="<?php echo Yii::$app->getUrlManager()->createUrl('site/logout'); ?>">خروج</a>
+                    <div class="navbar-form btn-group">
+                        <a class="btn btn-danger" href="<?php echo Yii::$app->getUrlManager()->createUrl('site/logout'); ?>">خروج</a>
+
+                        <a class="btn btn-default" href="<?php echo Yii::$app->getUrlManager()->createUrl('user'); ?>">حساب کاربری</a>
+                        <a class="btn btn-default" href="<?php echo Yii::$app->getUrlManager()->createUrl('user?action=charge'); ?>">شارژ حساب</a>
+                        <button class="btn btn-default btn-demo">موجودی حساب: <?= isset(Yii::$app->session->get('userInfo')['wallet']) ? Yii::$app->session->get('userInfo')['wallet'] : 0 ?> تومان</button>
+                        <button class="btn btn-default btn-demo"><?= Yii::$app->session->get('userInfo')['firstName'] ?> عزیز</button>
                     </div>
                 <?php } ?>
             </div><!-- /.navbar-collapse -->
@@ -149,7 +153,7 @@ AppAsset::register($this);
 
 
     <!-- Footer -->
-    <footer class="page-footer" style="background: white;">
+    <footer class="page-footer">
 
         <!-- Footer Links -->
         <div class="container-fluid text-center">
@@ -186,7 +190,8 @@ AppAsset::register($this);
 
         <!-- Copyright -->
         <div class="footer-copyright text-center">
-            © 2018 حق کپی رایت برای سایت محفوظ می باشد.
+            حق حقوق متعلق به سایت می باشد.
+            © 1397 - 2018
         </div>
         <!-- Copyright -->
 

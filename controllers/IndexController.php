@@ -67,10 +67,10 @@ class IndexController extends \yii\web\Controller
 //        return $this->render('index');
 //    }
 
-    public function actionMatchList()
+    public function actionMatchList($date)
     {
 
-        $date = yii::$app->request->get('date');
+//        $date = yii::$app->request->get('date');
 
         $client = SportMonks::init();
 
@@ -325,7 +325,7 @@ class IndexController extends \yii\web\Controller
             }
         }
 
-        //        $fixtures_ids = "9566499,10327959,8938349,8938351,8938353,9117063,10327960,8938411,8938413,8938415,8938417,9566501,9566502,9548233";
+//                $fixtures_ids = "9566499,10327959,8938349,8938351,8938353,9117063,10327960,8938411,8938413,8938415,8938417,9566501,9566502,9548233";
 
         if ($fixtures_ids == ""){
 

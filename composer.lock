@@ -1,11 +1,54 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f83e00514e6992dbc74f735f946fb244",
+    "content-hash": "b726dbc2f2d1f4d668e0c1cf967ef09c",
     "packages": [
+        {
+            "name": "amirasaran/zarinpal",
+            "version": "2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/amirasaran/yii2-zarinpal.git",
+                "reference": "464467e9c35eadf092f775fb941019e458a9f27c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/amirasaran/yii2-zarinpal/zipball/464467e9c35eadf092f775fb941019e458a9f27c",
+                "reference": "464467e9c35eadf092f775fb941019e458a9f27c",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "amirasaran\\zarinpal\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Amir Mohsen Asaran",
+                    "email": "admin@mihanmail.com"
+                }
+            ],
+            "description": "Online Zarinpal Payment Extension For Yii2",
+            "keywords": [
+                "iran",
+                "online",
+                "payment",
+                "persian",
+                "zarinpal"
+            ],
+            "time": "2017-09-01T12:45:59+00:00"
+        },
         {
             "name": "bower-asset/bootstrap",
             "version": "v3.3.7",
@@ -74,7 +117,7 @@
             "version": "v1.3.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/bestiejs/punycode.js.git",
+                "url": "git@github.com:bestiejs/punycode.js.git",
                 "reference": "38c8d3131a82567bfef18da09f7f4db68c84f8a3"
             },
             "dist": {

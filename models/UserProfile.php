@@ -12,6 +12,7 @@ use Yii;
  * @property string $firstName
  * @property string $lastName
  * @property string $mobile
+ * @property string $wallet
  * @property int $created_at
  * @property int $updated_at
  *
@@ -25,6 +26,30 @@ class UserProfile extends \yii\db\ActiveRecord
     public static function tableName()
     {
         return 'user_profile';
+    }
+
+    public static function updateUserWallet($amount)
+    {
+        $myProfile = UserProfile::find()->where('user_id=' . Yii::$app->user->id)->one();
+
+        if ($myProfile->wallet){
+
+            $newAmount = $myProfile->wallet + $amount;
+        } else {
+            $newAmount = $amount;
+        }
+
+        UserProfile::updateAll(['wallet' => $newAmount], 'user_id=' . Yii::$app->user->id);
+
+        $userProfile = \app\models\UserProfile::find()
+            ->where('user_id=' . Yii::$app->user->id)
+            ->asArray()
+            ->one();
+
+        if($userProfile){
+            $session = Yii::$app->session;
+            $session->set('userInfo', $userProfile);
+        }
     }
 
     /**
