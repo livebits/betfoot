@@ -23,8 +23,8 @@ AppAsset::register($this);
     <link rel="shortcut icon" href="<?= Yii::$app->homeUrl ?>/images/" type="image/png">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
-    <link href="/web/css/bootstrap.min.css" rel="stylesheet">
-    <link href="/web/css/font-awesome.css" rel="stylesheet">
+<!--    <link href="/web/css/bootstrap.min.css" rel="stylesheet">-->
+<!--    <link href="/web/css/font-awesome.css" rel="stylesheet">-->
     <?php $this->head() ?>
 
 </head>
