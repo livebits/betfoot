@@ -223,6 +223,13 @@ $this->title = "پیش بینی فوتبال";
                                                     echo 'live-clock';
                                                 }
                                                 ?>"
+
+                                                <?php
+
+                                                if ($fixture->status == "LIVE" || $fixture->status == "ET") {
+                                                    echo 'minute="' . $fixture->minute . '" second="' . $fixture->second . '"';
+                                                }
+                                                ?>
                                             >
                                                 <?php
                                                 if ($fixture->status == "NS") {
@@ -402,6 +409,10 @@ $this->title = "پیش بینی فوتبال";
 
     <script type="text/javascript">
         _csrf = "<?=\Yii::$app->request->csrfToken?>";
+
+        setTimeout(function(){
+            window.location.reload(1);
+        }, 30000);
     </script>
 
 <?php
@@ -413,6 +424,34 @@ $this->registerJs(<<<JS
     pricesObject = [];
     
     $(document).ready(function(){
+        
+    function startTime() {
+        
+        $('td.live-clock').each(function(i, clock) {
+        
+            // console.log(i + ", " + clock);
+            m = parseInt($(clock).attr('minute'));
+            s = parseInt($(clock).attr('second'));
+            
+            s = s + 1;
+            if(s == 60) {
+                s = 0;
+                m = m + 1;
+            }
+            
+            $(clock).attr('minute', m);
+            $(clock).attr('second', s);
+            
+            $(clock).text( m + ":" + s);
+        
+        });
+        
+        setTimeout(startTime, 1000);
+    }
+    
+    startTime();    
+        
+        
         
     $('.game_odds').click(function () {
         
@@ -538,8 +577,6 @@ $this->registerJs(<<<JS
                 });
             }
             
-            $('')
-            
             $('ul.bet input.input').on('input', function() {
                 myPrice = parseInt($(this).val());
                 oldValue = $(this).attr('data-value');
@@ -549,8 +586,6 @@ $this->registerJs(<<<JS
                 if(myPrice == oldValue && oldValue != 0){
                     return;
                 }
-                
-                // $('td.live-clock').attr('data-value', myPrice);
                 
                 myDataOddsId = $(this).attr('data-odd-id');
                 odds = $("ul[data-id=" + myDataOddsId + "] .odds").text();

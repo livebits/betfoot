@@ -140,7 +140,19 @@ if (isset($fixture->visitorTeam)) {
                                         echo $visitorTeam_name;
                                         ?>
                                     </td>
-                                    <td class="start_time">
+                                    <td style="width: 100px;" class="start_time <?php
+                                    if ($fixture->status == "LIVE" || $fixture->status == "ET") {
+                                        echo 'live-clock';
+                                    }
+                                    ?>"
+
+                                        <?php
+
+                                        if ($fixture->status == "LIVE" || $fixture->status == "ET") {
+                                            echo 'minute="' . $fixture->minute . '" second="' . $fixture->second . '"';
+                                        }
+                                        ?>
+                                    >
                                         <?php
                                         if ($fixture->status == "NS") {
                                             echo date('H:i', $fixture->starting_at_ts);
@@ -502,6 +514,10 @@ if (isset($fixture->visitorTeam)) {
 
     <script type="text/javascript">
         _csrf = "<?=\Yii::$app->request->csrfToken?>";
+
+        setTimeout(function(){
+            window.location.reload(1);
+        }, 10000);
     </script>
 
 <?php
@@ -513,6 +529,32 @@ $this->registerJs(<<<JS
     pricesObject = [];
     
     $(document).ready(function(){
+        
+        function startTime() {
+        
+        $('td.live-clock').each(function(i, clock) {
+        
+            // console.log(i + ", " + clock);
+            m = parseInt($(clock).attr('minute'));
+            s = parseInt($(clock).attr('second'));
+            
+            s = s + 1;
+            if(s == 60) {
+                s = 0;
+                m = m + 1;
+            }
+            
+            $(clock).attr('minute', m);
+            $(clock).attr('second', s);
+            
+            $(clock).text( m + ":" + s);
+        
+        });
+        
+        setTimeout(startTime, 1000);
+    }
+    
+    startTime();    
         
     $('.game_odds').click(function () {
         
