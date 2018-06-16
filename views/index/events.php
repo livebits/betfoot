@@ -253,11 +253,14 @@ if (isset($fixture->visitorTeam)) {
 
                                 if($odd->odds_id == 12 || $odd->odds_id == 38 || $odd->odds_id == 47){
 
+                                    $index = 0;
                                     foreach ($game_odds as $game_odd) {
                                         ?>
 
                                         <div class="btn-odds game_odds col-md-5" style="width: 45%;"
-                                             data-odds-id="<?= $odd->odds_id ?>"
+                                             data-odds-id="<?= $odd->odds_id . '_' . $index++?>"
+                                             data-odd-label="<?=$game_odd->label?>"
+                                             data-odds="<?= $game_odd->value ?>" data-fixture="<?= $fixture->fixture_id ?>"
                                              data-home="<?=$localTeam_name?>" data-away="<?=$visitorTeam_name?>">
                                             <span class="text-center">
                                             <?php
@@ -277,11 +280,14 @@ if (isset($fixture->visitorTeam)) {
                                     }
                                 } else if($odd->odds_id == 37 || $odd->odds_id == 80){
 
+                                    $index=0;
                                     foreach ($game_odds as $game_odd) {
                                         ?>
 
                                         <div class="btn-odds game_odds col-md-5" style="width: 25%;"
-                                             data-odds-id="<?= $odd->odds_id ?>"
+                                             data-odds-id="<?= $odd->odds_id . '_' . $index++?>"
+                                             data-odd-label="<?=$game_odd->label?>"
+                                             data-odds="<?= $game_odd->value ?>" data-fixture="<?= $fixture->fixture_id ?>"
                                              data-home="<?=$localTeam_name?>" data-away="<?=$visitorTeam_name?>">
                                             <span class="text-center">
                                             <?php
@@ -304,10 +310,15 @@ if (isset($fixture->visitorTeam)) {
 
                                 } else if($odd->odds_id == 10){
 
+                                    $index=0;
                                     foreach ($game_odds as $game_odd) {
                                         ?>
 
-                                        <div class="btn-odds game_odds col-md-5" style="width: 45%;" data-odds-id="<?= $fixture->fixture_id . '1' ?>">
+                                        <div class="btn-odds game_odds col-md-5" style="width: 45%;"
+                                             data-odds-id="<?= $odd->odds_id . '_' . $index++?>"
+                                             data-odd-label="<?=$game_odd->label?>"
+                                             data-odds="<?= $game_odd->value ?>" data-fixture="<?= $fixture->fixture_id ?>"
+                                             data-home="<?=$localTeam_name?>" data-away="<?=$visitorTeam_name?>">
                                             <span class="text-center">
                                             <?php
                                             if($game_odd->label == "1"){
@@ -329,10 +340,15 @@ if (isset($fixture->visitorTeam)) {
                                     $odd->odds_id == 83 || $odd->odds_id == 976209
                                     || $odd->odds_id == 976373 || $odd->odds_id == 975925 || $odd->odds_id == 28 ){
 
+                                    $index = 0;
                                     foreach ($game_odds as $game_odd) {
                                         ?>
 
-                                        <div class="btn-odds game_odds col-md-5" style="width: 45%;" data-odds-id="<?= $fixture->fixture_id . '1' ?>">
+                                        <div class="btn-odds game_odds col-md-5" style="width: 45%;"
+                                             data-odds-id="<?= $odd->odds_id . '_' . $index++?>"
+                                             data-odd-label="<?=$game_odd->label?>"
+                                             data-odds="<?= $game_odd->value ?>" data-fixture="<?= $fixture->fixture_id ?>"
+                                             data-home="<?=$localTeam_name?>" data-away="<?=$visitorTeam_name?>">
                                             <span class="text-center">
                                             <?php
                                             if($game_odd->label == "1"){
@@ -353,10 +369,15 @@ if (isset($fixture->visitorTeam)) {
                                     }
 
                                 } else {
+                                    $index = 0;
                                     foreach ($game_odds as $game_odd) {
                                         ?>
 
-                                        <div class="btn-odds game_odds col-md-5" style="width: 45%;" data-odds-id="<?= $fixture->fixture_id . '1' ?>">
+                                        <div class="btn-odds game_odds col-md-5" style="width: 45%;"
+                                             data-odds-id="<?= $odd->odds_id . '_' . $index++?>"
+                                             data-odd-label="<?=$game_odd->label?>"
+                                             data-odds="<?= $game_odd->value ?>" data-fixture="<?= $fixture->fixture_id ?>"
+                                             data-home="<?=$localTeam_name?>" data-away="<?=$visitorTeam_name?>">
                                             <span class="text-center">
                                             <?php
                                             echo $game_odd->label;
