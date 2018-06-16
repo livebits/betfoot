@@ -235,7 +235,22 @@ if (isset($fixture->visitorTeam)) {
                                                     } else if ($odd->odds_id == 83) {
                                                         echo 'هندیکپ سه تایی';
 
-                                                    } else {
+                                                    } else if ($odd->odds_id == 63) {
+                                                        echo 'شانس دو برابر';
+
+                                                    } else if ($odd->odds_id == 28) {
+                                                        echo 'هندیکپ';
+
+                                                    } else if ($odd->odds_id == 63) {
+                                                        echo 'شانس دو برابر';
+
+                                                    } else if ($odd->odds_id == 975930) {
+                                                        echo 'زوج/فرد';
+
+                                                    } else if ($odd->odds_id == 975932) {
+                                                        echo 'زوج/فرد نیمه اول';
+
+                                                    }  else {
                                                         echo $odd->name;
                                                     }
 
@@ -271,7 +286,7 @@ if (isset($fixture->visitorTeam)) {
                                             }
                                             ?>
 
-                                            <div class="btn-odds game_odds col-md-5" style="width: 45%;"
+                                            <div class="btn-odds game_odds col-md-5" style="width: 100%;"
                                                  data-odds-id="<?= $fixture->fixture_id . '_' . $odd->odds_id . '_' . $index++ ?>"
                                                  data-odd-label="<?= $odd->name . ' / ' . $label . ' ' . $game_odd->total ?>"
                                                  data-odds="<?= $game_odd->value ?>"
@@ -309,7 +324,7 @@ if (isset($fixture->visitorTeam)) {
                                             }
                                             ?>
 
-                                            <div class="btn-odds game_odds col-md-5" style="width: 25%;"
+                                            <div class="btn-odds game_odds col-md-5" style="width: 100%;"
                                                  data-odds-id="<?= $fixture->fixture_id . '_' . $odd->odds_id . '_' . $index++ ?>"
                                                  data-odd-label="<?= $odd->name . ' / ' . $label ?>"
                                                  data-odds="<?= $game_odd->value ?>"
@@ -350,7 +365,7 @@ if (isset($fixture->visitorTeam)) {
                                             }
                                             ?>
 
-                                            <div class="btn-odds game_odds col-md-5" style="width: 45%;"
+                                            <div class="btn-odds game_odds col-md-5" style="width: 100%;"
                                                  data-odds-id="<?= $fixture->fixture_id . '_' . $odd->odds_id . '_' . $index++ ?>"
                                                  data-odd-label="<?= $odd->name . ' / ' . $label ?>"
                                                  data-odds="<?= $game_odd->value ?>"
@@ -391,7 +406,7 @@ if (isset($fixture->visitorTeam)) {
                                             }
                                             ?>
 
-                                            <div class="btn-odds game_odds col-md-5" style="width: 45%;"
+                                            <div class="btn-odds game_odds col-md-5" style="width: 100%;"
                                                  data-odds-id="<?= $fixture->fixture_id . '_' . $odd->odds_id . '_' . $index++ ?>"
                                                  data-odd-label="<?= $odd->name . ' / ' . $label ?>"
                                                  data-odds="<?= $game_odd->value ?>"
@@ -422,7 +437,7 @@ if (isset($fixture->visitorTeam)) {
                                         foreach ($game_odds as $game_odd) {
                                             ?>
 
-                                            <div class="btn-odds game_odds col-md-5" style="width: 45%;"
+                                            <div class="btn-odds game_odds col-md-5" style="width: 100%;"
                                                  data-odds-id="<?= $fixture->fixture_id . '_' . $odd->odds_id . '_' . $index++ ?>"
                                                  data-odd-label="<?= $odd->name . ' / ' . $game_odd->label ?>"
                                                  data-odds="<?= $game_odd->value ?>"
