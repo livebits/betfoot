@@ -716,4 +716,127 @@ class IndexController extends \yii\web\Controller
         $is_inplay = true;
         return $this->render('index', compact('fixtures', 'is_inplay'));
     }
+
+    public function actionEvents($id) {
+        $client = SportMonks::init();
+
+        $fixture = Fixture::find()
+            ->with('localTeam')
+            ->with('visitorTeam')
+            ->with('odds')
+            ->where('fixture_id=' . $id)
+            ->one();
+
+            if(!isset($fixture->localTeam)) {
+                try {
+                    $team = $client->teams()->find($fixture->localteam_id);
+
+                    $my_team = new Team();
+                    $my_team->team_id = $team->id;
+                    $my_team->legacy_id = $team->legacy_id;
+                    $my_team->name = $team->name;
+                    $my_team->short_code = isset($team->short_code) ? $team->short_code : '';
+                    $my_team->twitter = isset($team->twitter) ? $team->twitter : '';
+                    $my_team->country_id = $team->country_id;
+                    $my_team->national_team = $team->national_team == "true" ? 1 : 0;
+                    $my_team->founded = $team->founded;
+                    $my_team->logo_path = $team->logo_path;
+                    $my_team->venue_id = $team->venue_id;
+
+                    $my_team->save();
+                } catch (ClientException $ce){
+
+                }
+
+            }
+
+            if(!isset($fixture->visitorTeam)) {
+                try {
+                    $team = $client->teams()->find($fixture->visitorteam_id);
+
+                    $my_team = new Team();
+                    $my_team->team_id = $team->id;
+                    $my_team->legacy_id = $team->legacy_id;
+                    $my_team->name = $team->name;
+                    $my_team->short_code = isset($team->short_code) ? $team->short_code : '';
+                    $my_team->twitter = isset($team->twitter) ? $team->twitter : '';
+                    $my_team->country_id = $team->country_id;
+                    $my_team->national_team = $team->national_team == "true" ? 1 : 0;
+                    $my_team->founded = $team->founded;
+                    $my_team->logo_path = $team->logo_path;
+                    $my_team->venue_id = $team->venue_id;
+
+                    $my_team->save();
+                } catch (ClientException $ce){
+
+                }
+
+            }
+
+            if(!isset($fixture->league)) {
+                try {
+                    $league = $client->leagues()->find($fixture->league_id);
+
+                    $my_league = new League();
+                    $my_league->league_id = $league->id;
+                    $my_league->legacy_id = $league->legacy_id;
+                    $my_league->country_id = $league->country_id;
+                    $my_league->name = $league->name;
+                    $my_league->is_cup = $league->is_cup == 'true' ? 1 : 0;
+                    $my_league->current_season_id = $league->current_season_id;
+                    $my_league->current_round_id = $league->current_round_id;
+                    $my_league->current_stage_id = $league->current_stage_id;
+                    $my_league->live_standings = $league->live_standings == "true" ? 1 : 0;
+
+                    if (isset($league->coverage)) {
+                        $my_league->topscorer_goals = $league->coverage->topscorer_goals == "true" ? 1 : 0;
+                        $my_league->topscorer_assists = $league->coverage->topscorer_assists == "true" ? 1 : 0;
+                        $my_league->topscorer_cards = $league->coverage->topscorer_cards == "true" ? 1 : 0;
+                    }
+
+                    $my_league->save();
+
+                } catch (ClientException $ce){
+
+                }
+
+            }
+
+            if(!isset($fixture->odds) || (isset($fixture->odds) && count($fixture->odds) == 0)) {
+                try {
+                    $fixture_odds = $client->fixtures()->oddsByBookmaker($fixture->fixture_id, 2);
+
+                    foreach ($fixture_odds as $odds_obj){
+
+                        $odds = null;
+                        foreach ($fixture->odds as $savedOdds){
+                            if($savedOdds->odds_id == $odds_obj->id){
+
+                                $odds = $savedOdds;
+                                break;
+                            }
+                        }
+
+                        if(!$odds){
+                            $odds = new Odds();
+                            $odds->odds_id = $odds_obj->id;
+                            $odds->fixture_id = $fixture->fixture_id;
+                            $odds->name = $odds_obj->name;
+                        }
+
+                        $odds->bookmaker = json_encode($odds_obj->bookmaker);
+
+                        $odds->save();
+
+                    }
+
+                } catch (ClientException $ce){
+
+                }
+
+            }
+
+//        $is_inplay = true;
+        return $this->render('events', compact('fixture'));
+    }
 }

@@ -324,7 +324,8 @@ $this->title = "پیش بینی فوتبال";
                                     <?php } ?>
                                 </td>
                                 <td style="width:5%;">
-                                    <div class="btn-odds btn-odds-more hidden" title="شرط های بیشتر">+</div>
+                                    <a class="btn-odds btn-odds-more" title="شرط های بیشتر"
+                                        href="<?=Yii::$app->getUrlManager()->createUrl('index/events')?>?id=<?=$fixture->fixture_id?>"></a>
                                 </td>
 
                             </tr>
