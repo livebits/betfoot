@@ -1,4 +1,5 @@
 <?php
+
 use yii\bootstrap\ActiveForm;
 
 
@@ -10,7 +11,7 @@ $this->title = "پیش بینی فوتبال";
 <?php
 
 $myPredictions = [];
-if(!Yii::$app->user->isGuest) {
+if (!Yii::$app->user->isGuest) {
     $myPredictions = \app\models\Prediction::find()
         ->where('user_id=' . Yii::$app->user->id)
         ->all();
@@ -21,7 +22,7 @@ $league_id = 0;
 $is_predicted = false;
 foreach ($myPredictions as $myPrediction) {
 
-    if ($myPrediction->fixture_id == $fixture->fixture_id){
+    if ($myPrediction->fixture_id == $fixture->fixture_id) {
         $is_predicted = true;
         break;
     }
@@ -172,272 +173,275 @@ if (isset($fixture->visitorTeam)) {
                     <table class="table match_list table-responsive">
 
 
+                        <?php
 
-                                <?php
+                        //get fixture odds
+                        $odds = \app\models\Odds::find()
+                            ->where('fixture_id=' . $fixture->fixture_id)
+                            ->all();
 
-                                //get fixture odds
-                                $odds = \app\models\Odds::find()
-                                    ->where('fixture_id=' . $fixture->fixture_id)
-                                    ->all();
+                        foreach ($odds as $odd) {
 
-                                foreach ($odds as $odd){
+                            $bookmaker = json_decode($odd->bookmaker);
+                            $game_odds = $bookmaker->data[0]->odds->data;
 
-                                $bookmaker = json_decode($odd->bookmaker);
-                                $game_odds = $bookmaker->data[0]->odds->data;
+                            if ($odd->odds_id == 1) {
 
-                                    if($odd->odds_id == 1){
+                                continue;
+                            }
+                            ?>
 
-                                        continue;
-                                    }
-                                    ?>
+                            <tr class="match_group_header">
 
-                                <tr class="match_group_header">
-
-                                    <td style="width:65%;text-align: right;">
+                                <td style="width:65%;text-align: right;">
                                         <span class="match_group_name">
                                                     <?php
-                                                    if($odd->odds_id == 12){
+                                                    if ($odd->odds_id == 12) {
                                                         echo 'تعداد گل بالا/پایین';
 
-                                                    } else if($odd->odds_id == 38){
+                                                    } else if ($odd->odds_id == 38) {
                                                         echo 'تعداد گل بالا/پایین نیمه اول';
 
-                                                    } else if($odd->odds_id == 47){
+                                                    } else if ($odd->odds_id == 47) {
                                                         echo 'تعداد گل بالا/پایین نیمه دوم';
 
-                                                    } else if($odd->odds_id == 37){
+                                                    } else if ($odd->odds_id == 37) {
                                                         echo 'نتیجه بازی در نیمه اول';
 
-                                                    } else if($odd->odds_id == 80){
+                                                    } else if ($odd->odds_id == 80) {
                                                         echo 'نتیجه بازی در نیمه دوم';
 
-                                                    }
-                                                    else if($odd->odds_id == 10){
+                                                    } else if ($odd->odds_id == 10) {
                                                         echo 'رفت/برگشت';
 
-                                                    }
-                                                    else if($odd->odds_id == 975909){
+                                                    } else if ($odd->odds_id == 975909) {
                                                         echo 'نتیجه دقیق';
 
-                                                    }
-                                                    else if($odd->odds_id == 975916){
+                                                    } else if ($odd->odds_id == 975916) {
                                                         echo 'نتیجه دقیق نیمه اول';
 
-                                                    }
-                                                    else if($odd->odds_id == 83){
+                                                    } else if ($odd->odds_id == 83) {
                                                         echo 'هندیکپ سه تایی';
 
-                                                    }
-
-                                                    else {
+                                                    } else {
                                                         echo $odd->name;
                                                     }
 
-//                                                    echo ' // ' . $odd->odds_id;
+                                                    //                                                    echo ' // ' . $odd->odds_id;
                                                     ?>
                                             </span>
-                                        </span>
-                                    </td>
+                                    </span>
+                                </td>
 
-                                </tr>
+                            </tr>
 
-                        <tr class="match_group_item">
+                            <tr class="match_group_item">
 
-                            <td>
+                                <td>
 
-                                <?php
-                                if($odd->odds_id == 1){
+                                    <?php
+                                    if ($odd->odds_id == 1) {
 
-                                    continue;
-                                }
+                                        continue;
+                                    }
 
-                                if($odd->odds_id == 12 || $odd->odds_id == 38 || $odd->odds_id == 47){
+                                    if ($odd->odds_id == 12 || $odd->odds_id == 38 || $odd->odds_id == 47) {
 
-                                    $index = 0;
-                                    foreach ($game_odds as $game_odd) {
+                                        $index = 0;
+                                        foreach ($game_odds as $game_odd) {
 
 
-                                        $label = $game_odd->label;
-                                        if($label == "Under"){
-                                            $label = 'زیر';
-                                        } else if($label == "Over"){
-                                            $label = 'بالای';
-                                        }
-                                        ?>
+                                            $label = $game_odd->label;
+                                            if ($label == "Under") {
+                                                $label = 'زیر';
+                                            } else if ($label == "Over") {
+                                                $label = 'بالای';
+                                            }
+                                            ?>
 
-                                        <div class="btn-odds game_odds col-md-5" style="width: 45%;"
-                                             data-odds-id="<?= $fixture->fixture_id . '_' . $odd->odds_id . '_' . $index++?>"
-                                             data-odd-label="<?=$odd->name . ' / ' . $label . ' ' . $game_odd->total?>"
-                                             data-odds="<?= $game_odd->value ?>" data-fixture="<?= $fixture->fixture_id ?>"
-                                             data-home="<?=$localTeam_name?>" data-away="<?=$visitorTeam_name?>">
+                                            <div class="btn-odds game_odds col-md-5" style="width: 45%;"
+                                                 data-odds-id="<?= $fixture->fixture_id . '_' . $odd->odds_id . '_' . $index++ ?>"
+                                                 data-odd-label="<?= $odd->name . ' / ' . $label . ' ' . $game_odd->total ?>"
+                                                 data-odds="<?= $game_odd->value ?>"
+                                                 data-fixture="<?= $fixture->fixture_id ?>"
+                                                 data-home="<?= $localTeam_name ?>"
+                                                 data-away="<?= $visitorTeam_name ?>">
                                             <span class="text-center">
                                             <?php
-                                            if($game_odd->label == "Under"){
+                                            if ($game_odd->label == "Under") {
                                                 echo 'زیر ' . $game_odd->total;
-                                            } else if($game_odd->label == "Over"){
+                                            } else if ($game_odd->label == "Over") {
                                                 echo 'بالای ' . $game_odd->total;
                                             }
                                             ?>
                                             </span>
-                                            <span class="text-left" style="float: left;margin-left: 5px;">
-                                                <?=$game_odd->value ?>
+                                                <span class="text-left" style="float: left;margin-left: 5px;">
+                                                <?= $game_odd->value ?>
                                             </span>
-                                        </div>
+                                            </div>
 
-                                        <?php
-                                    }
-                                } else if($odd->odds_id == 37 || $odd->odds_id == 80){
-
-                                    $index=0;
-                                    foreach ($game_odds as $game_odd) {
-
-                                        $label = $game_odd->label;
-                                        if($label == "1"){
-                                            $label = 'میزبان';
-                                        } else if($label == "2"){
-                                            $label = 'میهمان';
-                                        } else if($label == "X"){
-                                            $label = 'مساوی';
+                                            <?php
                                         }
-                                        ?>
+                                    } else if ($odd->odds_id == 37 || $odd->odds_id == 80) {
 
-                                        <div class="btn-odds game_odds col-md-5" style="width: 25%;"
-                                             data-odds-id="<?= $fixture->fixture_id . '_' . $odd->odds_id . '_' . $index++?>"
-                                             data-odd-label="<?=$odd->name . ' / ' . $label?>"
-                                             data-odds="<?= $game_odd->value ?>" data-fixture="<?= $fixture->fixture_id ?>"
-                                             data-home="<?=$localTeam_name?>" data-away="<?=$visitorTeam_name?>">
+                                        $index = 0;
+                                        foreach ($game_odds as $game_odd) {
+
+                                            $label = $game_odd->label;
+                                            if ($label == "1") {
+                                                $label = 'میزبان';
+                                            } else if ($label == "2") {
+                                                $label = 'میهمان';
+                                            } else if ($label == "X") {
+                                                $label = 'مساوی';
+                                            }
+                                            ?>
+
+                                            <div class="btn-odds game_odds col-md-5" style="width: 25%;"
+                                                 data-odds-id="<?= $fixture->fixture_id . '_' . $odd->odds_id . '_' . $index++ ?>"
+                                                 data-odd-label="<?= $odd->name . ' / ' . $label ?>"
+                                                 data-odds="<?= $game_odd->value ?>"
+                                                 data-fixture="<?= $fixture->fixture_id ?>"
+                                                 data-home="<?= $localTeam_name ?>"
+                                                 data-away="<?= $visitorTeam_name ?>">
                                             <span class="text-center">
                                             <?php
-                                            if($game_odd->label == "1"){
+                                            if ($game_odd->label == "1") {
                                                 echo 'برد میزبان';
-                                            } else if($game_odd->label == "2"){
+                                            } else if ($game_odd->label == "2") {
                                                 echo 'برد میهمان';
-                                            } else if($game_odd->label == "X"){
+                                            } else if ($game_odd->label == "X") {
                                                 echo 'مساوی';
                                             }
                                             ?>
                                             </span>
-                                            <span class="text-left" style="float: left;margin-left: 5px;">
-                                                <?=$game_odd->value ?>
+                                                <span class="text-left" style="float: left;margin-left: 5px;">
+                                                <?= $game_odd->value ?>
                                             </span>
-                                        </div>
+                                            </div>
 
-                                        <?php
-                                    }
-
-                                } else if($odd->odds_id == 10){
-
-                                    $index=0;
-                                    foreach ($game_odds as $game_odd) {
-
-                                        $label = $game_odd->label;
-                                        if($label == "1"){
-                                            $label = 'میزبان';
-                                        } else if($label == "2"){
-                                            $label = 'میهمان';
-                                        } else if($label == "X"){
-                                            $label = 'مساوی';
+                                            <?php
                                         }
-                                        ?>
 
-                                        <div class="btn-odds game_odds col-md-5" style="width: 45%;"
-                                             data-odds-id="<?= $fixture->fixture_id . '_' . $odd->odds_id . '_' . $index++?>"
-                                             data-odd-label="<?=$odd->name . ' / ' . $label?>"
-                                             data-odds="<?= $game_odd->value ?>" data-fixture="<?= $fixture->fixture_id ?>"
-                                             data-home="<?=$localTeam_name?>" data-away="<?=$visitorTeam_name?>">
+                                    } else if ($odd->odds_id == 10) {
+
+                                        $index = 0;
+                                        foreach ($game_odds as $game_odd) {
+
+                                            $label = $game_odd->label;
+                                            if ($label == "1") {
+                                                $label = 'میزبان';
+                                            } else if ($label == "2") {
+                                                $label = 'میهمان';
+                                            } else if ($label == "X") {
+                                                $label = 'مساوی';
+                                            }
+                                            ?>
+
+                                            <div class="btn-odds game_odds col-md-5" style="width: 45%;"
+                                                 data-odds-id="<?= $fixture->fixture_id . '_' . $odd->odds_id . '_' . $index++ ?>"
+                                                 data-odd-label="<?= $odd->name . ' / ' . $label ?>"
+                                                 data-odds="<?= $game_odd->value ?>"
+                                                 data-fixture="<?= $fixture->fixture_id ?>"
+                                                 data-home="<?= $localTeam_name ?>"
+                                                 data-away="<?= $visitorTeam_name ?>">
                                             <span class="text-center">
                                             <?php
-                                            if($game_odd->label == "1"){
+                                            if ($game_odd->label == "1") {
                                                 echo 'میزبان';
-                                            } else if($game_odd->label == "2"){
+                                            } else if ($game_odd->label == "2") {
                                                 echo 'میهمان';
                                             }
                                             ?>
                                             </span>
-                                            <span class="text-left" style="float: left;margin-left: 5px;">
-                                                <?=$game_odd->value ?>
+                                                <span class="text-left" style="float: left;margin-left: 5px;">
+                                                <?= $game_odd->value ?>
                                             </span>
-                                        </div>
+                                            </div>
 
-                                        <?php
-                                    }
-
-                                } else if($odd->odds_id == 975923 ||
-                                    $odd->odds_id == 83 || $odd->odds_id == 976209
-                                    || $odd->odds_id == 976373 || $odd->odds_id == 975925 || $odd->odds_id == 28 ){
-
-                                    $index = 0;
-                                    foreach ($game_odds as $game_odd) {
-
-                                        $label = $game_odd->label;
-                                        if($label == "1"){
-                                            $label = 'میزبان';
-                                        } else if($label == "2"){
-                                            $label = 'میهمان';
-                                        } else if($label == "X"){
-                                            $label = 'مساوی';
+                                            <?php
                                         }
-                                        ?>
 
-                                        <div class="btn-odds game_odds col-md-5" style="width: 45%;"
-                                             data-odds-id="<?= $fixture->fixture_id . '_' . $odd->odds_id . '_' . $index++?>"
-                                             data-odd-label="<?=$odd->name . ' / ' . $label?>"
-                                             data-odds="<?= $game_odd->value ?>" data-fixture="<?= $fixture->fixture_id ?>"
-                                             data-home="<?=$localTeam_name?>" data-away="<?=$visitorTeam_name?>">
+                                    } else if ($odd->odds_id == 975923 ||
+                                        $odd->odds_id == 83 || $odd->odds_id == 976209
+                                        || $odd->odds_id == 976373 || $odd->odds_id == 975925 || $odd->odds_id == 28) {
+
+                                        $index = 0;
+                                        foreach ($game_odds as $game_odd) {
+
+                                            $label = $game_odd->label;
+                                            if ($label == "1") {
+                                                $label = 'میزبان';
+                                            } else if ($label == "2") {
+                                                $label = 'میهمان';
+                                            } else if ($label == "X") {
+                                                $label = 'مساوی';
+                                            }
+                                            ?>
+
+                                            <div class="btn-odds game_odds col-md-5" style="width: 45%;"
+                                                 data-odds-id="<?= $fixture->fixture_id . '_' . $odd->odds_id . '_' . $index++ ?>"
+                                                 data-odd-label="<?= $odd->name . ' / ' . $label ?>"
+                                                 data-odds="<?= $game_odd->value ?>"
+                                                 data-fixture="<?= $fixture->fixture_id ?>"
+                                                 data-home="<?= $localTeam_name ?>"
+                                                 data-away="<?= $visitorTeam_name ?>">
                                             <span class="text-center">
                                             <?php
-                                            if($game_odd->label == "1"){
+                                            if ($game_odd->label == "1") {
                                                 echo 'میزبان';
-                                            } else if($game_odd->label == "2"){
+                                            } else if ($game_odd->label == "2") {
                                                 echo 'میهمان';
-                                            } else if($game_odd->label == "X"){
+                                            } else if ($game_odd->label == "X") {
                                                 echo 'مساوی';
                                             }
                                             ?>
                                             </span>
-                                            <span class="text-left" style="float: left;margin-left: 5px;">
-                                                <?=$game_odd->value ?>
+                                                <span class="text-left" style="float: left;margin-left: 5px;">
+                                                <?= $game_odd->value ?>
                                             </span>
-                                        </div>
+                                            </div>
 
-                                        <?php
-                                    }
+                                            <?php
+                                        }
 
-                                } else {
-                                    $index = 0;
-                                    foreach ($game_odds as $game_odd) {
-                                        ?>
+                                    } else {
+                                        $index = 0;
+                                        foreach ($game_odds as $game_odd) {
+                                            ?>
 
-                                        <div class="btn-odds game_odds col-md-5" style="width: 45%;"
-                                             data-odds-id="<?= $fixture->fixture_id . '_' . $odd->odds_id . '_' . $index++?>"
-                                             data-odd-label="<?=$odd->name . ' / ' . $game_odd->label?>"
-                                             data-odds="<?= $game_odd->value ?>" data-fixture="<?= $fixture->fixture_id ?>"
-                                             data-home="<?=$localTeam_name?>" data-away="<?=$visitorTeam_name?>">
+                                            <div class="btn-odds game_odds col-md-5" style="width: 45%;"
+                                                 data-odds-id="<?= $fixture->fixture_id . '_' . $odd->odds_id . '_' . $index++ ?>"
+                                                 data-odd-label="<?= $odd->name . ' / ' . $game_odd->label ?>"
+                                                 data-odds="<?= $game_odd->value ?>"
+                                                 data-fixture="<?= $fixture->fixture_id ?>"
+                                                 data-home="<?= $localTeam_name ?>"
+                                                 data-away="<?= $visitorTeam_name ?>">
                                             <span class="text-center">
                                             <?php
                                             echo $game_odd->label;
                                             ?>
                                             </span>
-                                            <span class="text-left" style="float: left;margin-left: 5px;">
-                                                <?=$game_odd->value ?>
+                                                <span class="text-left" style="float: left;margin-left: 5px;">
+                                                <?= $game_odd->value ?>
                                             </span>
-                                        </div>
+                                            </div>
 
-                                        <?php
+                                            <?php
+                                        }
                                     }
-                                }
 
-                                ?>
+                                    ?>
 
 
-                            </td>
+                                </td>
 
-                        </tr>
+                            </tr>
 
-                                    <?php
+                            <?php
 
-                                }
-                                ?>
+                        }
+                        ?>
 
                     </table>
                 </div>
@@ -485,9 +489,9 @@ if (isset($fixture->visitorTeam)) {
                 </li>
             </ul>
             <div style="padding:30px 0 10px 0;text-align:center;">
-                <form action="<?=Yii::$app->getUrlManager()->createUrl('user/more-predicts')?>"
+                <form action="<?= Yii::$app->getUrlManager()->createUrl('user/more-predicts') ?>"
                       method="post">
-                    <input type="hidden" name="_csrf" value="<?=\Yii::$app->request->csrfToken?>">
+                    <input type="hidden" name="_csrf" value="<?= \Yii::$app->request->csrfToken ?>">
                     <input type="hidden" class="userPredicts" name="userPredicts" value="">
 
                     <input class="btn btn-block placebet" value="ثبت شرط" type="submit">

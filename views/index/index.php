@@ -218,7 +218,12 @@ $this->title = "پیش بینی فوتبال";
                                                 echo $visitorTeam_name;
                                                 ?>
                                             </td>
-                                            <td class="start_time">
+                                            <td class="start_time <?php
+                                                if ($fixture->status == "LIVE" || $fixture->status == "ET") {
+                                                    echo 'live-clock';
+                                                }
+                                                ?>"
+                                            >
                                                 <?php
                                                 if ($fixture->status == "NS") {
                                                     echo date('H:i', $fixture->starting_at_ts);
@@ -533,6 +538,8 @@ $this->registerJs(<<<JS
                 });
             }
             
+            $('')
+            
             $('ul.bet input.input').on('input', function() {
                 myPrice = parseInt($(this).val());
                 oldValue = $(this).attr('data-value');
@@ -543,7 +550,7 @@ $this->registerJs(<<<JS
                     return;
                 }
                 
-                $('ul.bet input.input').attr('data-value', myPrice);
+                // $('td.live-clock').attr('data-value', myPrice);
                 
                 myDataOddsId = $(this).attr('data-odd-id');
                 odds = $("ul[data-id=" + myDataOddsId + "] .odds").text();
