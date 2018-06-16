@@ -3,6 +3,7 @@
 namespace app\controllers;
 use app\models\Fixture;
 use app\models\Prediction;
+use app\models\UserWallet;
 use Yii;
 use app\models\UserProfile;
 use yii\filters\AccessControl;
@@ -37,6 +38,7 @@ class UserController extends \yii\web\Controller
         $request = Yii::$app->request;
         $data = $request->post('userPredicts');
         $data = json_decode($data);
+
 
         $sumPrices = 0;
         $fixture_ids = [];
@@ -74,7 +76,7 @@ class UserController extends \yii\web\Controller
 
             if($type == 1){
                 $selected_team_id = $fixture->localTeam->team_id;
-            } else if($type == 1){
+            } else if($type == 2){
                 $selected_team_id = $fixture->visitorTeam->team_id;
             } else {
                 $selected_team_id = 0;
@@ -93,6 +95,18 @@ class UserController extends \yii\web\Controller
             $prediction->created_at = time();
 
             $prediction->save();
+
+
+            //dec it from wallet
+            $userWallet = new UserWallet();
+            $userWallet->user_id = Yii::$app->user->id;
+            $userWallet->amount = -$user_price;
+            $userWallet->type = UserWallet::$PREDICT;
+            $userWallet->comment = '';
+            $userWallet->created_at = time();
+            $userWallet->save();
+
+            UserProfile::updateUserWallet(-$user_price);
         }
 
         return $this->redirect(Yii::$app->getUrlManager()->createUrl('user').'?action=history');
@@ -160,6 +174,17 @@ class UserController extends \yii\web\Controller
             $prediction->created_at = time();
 
             $prediction->save();
+
+            //dec it from wallet
+            $userWallet = new UserWallet();
+            $userWallet->user_id = Yii::$app->user->id;
+            $userWallet->amount = -$user_price;
+            $userWallet->type = UserWallet::$PREDICT;
+            $userWallet->comment = '';
+            $userWallet->created_at = time();
+            $userWallet->save();
+
+            UserProfile::updateUserWallet(-$user_price);
         }
 
         return $this->redirect(Yii::$app->getUrlManager()->createUrl('user').'?action=history');

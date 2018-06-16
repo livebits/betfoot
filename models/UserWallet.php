@@ -19,6 +19,11 @@ use Yii;
  */
 class UserWallet extends \yii\db\ActiveRecord
 {
+    public static $WITHDRAW = 'WITHDRAW';
+    public static $DEPOSIT = 'DEPOSIT';
+    public static $PREDICT = 'PREDICT';
+    public static $WIN = 'WIN';
+
     /**
      * {@inheritdoc}
      */
