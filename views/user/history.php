@@ -40,14 +40,28 @@ use yii\data\ActiveDataProvider;
             [
                 'attribute' => 'selected_team_id',
                 'value' => function ($data) {
-                    if($data->fixture->localteam_id == $data->selected_team_id){
-                        return 'برد میزبان';
 
-                    } else if($data->fixture->visitorteam_id == $data->selected_team_id){
-                        return 'برد مهمان';
+                    if($data->more_desc == "") {
+                        if ($data->fixture->localteam_id == $data->selected_team_id) {
+                            return 'برد میزبان';
 
+                        } else if ($data->fixture->visitorteam_id == $data->selected_team_id) {
+                            return 'برد مهمان';
+
+                        } else {
+                            return 'مساوی';
+                        }
                     } else {
-                        return 'مساوی';
+                        $more_desc = $data->more_desc;
+                        $fixture_id = explode("_", $more_desc)[0];
+                        $odds_id = explode("_", $more_desc)[1];
+                        $odds_index = explode("_", $more_desc)[2];
+
+                        $odds = \app\models\Odds::find()
+                            ->where('fixture_id='.$fixture_id . ' AND odds_id=' . $odds_id)
+                            ->one();
+
+                        return $odds->name;
                     }
                 }
             ],

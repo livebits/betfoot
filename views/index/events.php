@@ -255,11 +255,19 @@ if (isset($fixture->visitorTeam)) {
 
                                     $index = 0;
                                     foreach ($game_odds as $game_odd) {
+
+
+                                        $label = $game_odd->label;
+                                        if($label == "Under"){
+                                            $label = 'زیر';
+                                        } else if($label == "Over"){
+                                            $label = 'بالای';
+                                        }
                                         ?>
 
                                         <div class="btn-odds game_odds col-md-5" style="width: 45%;"
-                                             data-odds-id="<?= $odd->odds_id . '_' . $index++?>"
-                                             data-odd-label="<?=$game_odd->label?>"
+                                             data-odds-id="<?= $fixture->fixture_id . '_' . $odd->odds_id . '_' . $index++?>"
+                                             data-odd-label="<?=$odd->name . ' / ' . $label . ' ' . $game_odd->total?>"
                                              data-odds="<?= $game_odd->value ?>" data-fixture="<?= $fixture->fixture_id ?>"
                                              data-home="<?=$localTeam_name?>" data-away="<?=$visitorTeam_name?>">
                                             <span class="text-center">
@@ -282,11 +290,20 @@ if (isset($fixture->visitorTeam)) {
 
                                     $index=0;
                                     foreach ($game_odds as $game_odd) {
+
+                                        $label = $game_odd->label;
+                                        if($label == "1"){
+                                            $label = 'میزبان';
+                                        } else if($label == "2"){
+                                            $label = 'میهمان';
+                                        } else if($label == "X"){
+                                            $label = 'مساوی';
+                                        }
                                         ?>
 
                                         <div class="btn-odds game_odds col-md-5" style="width: 25%;"
-                                             data-odds-id="<?= $odd->odds_id . '_' . $index++?>"
-                                             data-odd-label="<?=$game_odd->label?>"
+                                             data-odds-id="<?= $fixture->fixture_id . '_' . $odd->odds_id . '_' . $index++?>"
+                                             data-odd-label="<?=$odd->name . ' / ' . $label?>"
                                              data-odds="<?= $game_odd->value ?>" data-fixture="<?= $fixture->fixture_id ?>"
                                              data-home="<?=$localTeam_name?>" data-away="<?=$visitorTeam_name?>">
                                             <span class="text-center">
@@ -312,11 +329,20 @@ if (isset($fixture->visitorTeam)) {
 
                                     $index=0;
                                     foreach ($game_odds as $game_odd) {
+
+                                        $label = $game_odd->label;
+                                        if($label == "1"){
+                                            $label = 'میزبان';
+                                        } else if($label == "2"){
+                                            $label = 'میهمان';
+                                        } else if($label == "X"){
+                                            $label = 'مساوی';
+                                        }
                                         ?>
 
                                         <div class="btn-odds game_odds col-md-5" style="width: 45%;"
-                                             data-odds-id="<?= $odd->odds_id . '_' . $index++?>"
-                                             data-odd-label="<?=$game_odd->label?>"
+                                             data-odds-id="<?= $fixture->fixture_id . '_' . $odd->odds_id . '_' . $index++?>"
+                                             data-odd-label="<?=$odd->name . ' / ' . $label?>"
                                              data-odds="<?= $game_odd->value ?>" data-fixture="<?= $fixture->fixture_id ?>"
                                              data-home="<?=$localTeam_name?>" data-away="<?=$visitorTeam_name?>">
                                             <span class="text-center">
@@ -342,11 +368,20 @@ if (isset($fixture->visitorTeam)) {
 
                                     $index = 0;
                                     foreach ($game_odds as $game_odd) {
+
+                                        $label = $game_odd->label;
+                                        if($label == "1"){
+                                            $label = 'میزبان';
+                                        } else if($label == "2"){
+                                            $label = 'میهمان';
+                                        } else if($label == "X"){
+                                            $label = 'مساوی';
+                                        }
                                         ?>
 
                                         <div class="btn-odds game_odds col-md-5" style="width: 45%;"
-                                             data-odds-id="<?= $odd->odds_id . '_' . $index++?>"
-                                             data-odd-label="<?=$game_odd->label?>"
+                                             data-odds-id="<?= $fixture->fixture_id . '_' . $odd->odds_id . '_' . $index++?>"
+                                             data-odd-label="<?=$odd->name . ' / ' . $label?>"
                                              data-odds="<?= $game_odd->value ?>" data-fixture="<?= $fixture->fixture_id ?>"
                                              data-home="<?=$localTeam_name?>" data-away="<?=$visitorTeam_name?>">
                                             <span class="text-center">
@@ -374,8 +409,8 @@ if (isset($fixture->visitorTeam)) {
                                         ?>
 
                                         <div class="btn-odds game_odds col-md-5" style="width: 45%;"
-                                             data-odds-id="<?= $odd->odds_id . '_' . $index++?>"
-                                             data-odd-label="<?=$game_odd->label?>"
+                                             data-odds-id="<?= $fixture->fixture_id . '_' . $odd->odds_id . '_' . $index++?>"
+                                             data-odd-label="<?=$odd->name . ' / ' . $game_odd->label?>"
                                              data-odds="<?= $game_odd->value ?>" data-fixture="<?= $fixture->fixture_id ?>"
                                              data-home="<?=$localTeam_name?>" data-away="<?=$visitorTeam_name?>">
                                             <span class="text-center">
@@ -450,7 +485,7 @@ if (isset($fixture->visitorTeam)) {
                 </li>
             </ul>
             <div style="padding:30px 0 10px 0;text-align:center;">
-                <form action="<?=Yii::$app->getUrlManager()->createUrl('user/predict')?>"
+                <form action="<?=Yii::$app->getUrlManager()->createUrl('user/more-predicts')?>"
                       method="post">
                     <input type="hidden" name="_csrf" value="<?=\Yii::$app->request->csrfToken?>">
                     <input type="hidden" class="userPredicts" name="userPredicts" value="">
@@ -504,6 +539,7 @@ $this->registerJs(<<<JS
             $("ul[data-id=" + data_odds_id + "] .home-team").text($(this).attr("data-home"));
             $("ul[data-id=" + data_odds_id + "] .away-team").text($(this).attr("data-away"));
             $("ul[data-id=" + data_odds_id + "] .odds").text($(this).attr("data-odds"));
+            // $("ul[data-id=" + data_odds_id + "] .odds").text($(this).attr("data-odd-label"));
             $("ul[data-id=" + data_odds_id + "] div.delete").attr('data-id', data_odds_id);
             
                 $(".delete").click(function() {
@@ -569,14 +605,15 @@ $this->registerJs(<<<JS
             $("ul[data-id=" + data_odds_id + "] input.input").attr('data-odd-value', $(this).attr("data-odds"));
             $("ul[data-id=" + data_odds_id + "] input.input").attr('data-odd-id', data_odds_id);
             
-            lastChar = data_odds_id.substr(data_odds_id.length - 1);
-            if(lastChar == "1"){
-                $("ul[data-id=" + data_odds_id + "] .selected-odd-title").text($(this).attr("data-home"));
-            } else if(lastChar == "2"){
-                $("ul[data-id=" + data_odds_id + "] .selected-odd-title").text($(this).attr("data-away"));
-            } else {
-                $("ul[data-id=" + data_odds_id + "] .selected-odd-title").text('مساوی');
-            }
+            // lastChar = data_odds_id.substr(data_odds_id.length - 1);
+            // if(lastChar == "1"){
+            //     $("ul[data-id=" + data_odds_id + "] .selected-odd-title").text($(this).attr("data-home"));
+            // } else if(lastChar == "2"){
+            //     $("ul[data-id=" + data_odds_id + "] .selected-odd-title").text($(this).attr("data-away"));
+            // } else {
+            //     $("ul[data-id=" + data_odds_id + "] .selected-odd-title").text('مساوی');
+            // }
+            $("ul[data-id=" + data_odds_id + "] .selected-odd-title").text($(this).attr("data-odd-label"));
             
             if(selected_ids.length == 1){
                 
@@ -588,12 +625,6 @@ $this->registerJs(<<<JS
                 $(".bettotal span.totalstake").text(0);
                 $(".bettotal span.totalwin").text(0);
                 $('.bettotal input.placebet').click(function() {
-        
-                    // $.post("/user/predict", 
-                    //     {"data": JSON.stringify(pricesObject), '_csrf': _csrf}, 
-                    //     function(result){
-                    //        
-                    // })
                     
                     $('input[name=userPredicts]').attr('value', JSON.stringify(pricesObject));
                 });

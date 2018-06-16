@@ -14,6 +14,7 @@ use Yii;
  * @property int $user_price
  * @property int $win_price
  * @property string $status
+ * @property string $more_desc
  * @property int $updated_at
  * @property int $created_at
  *
@@ -36,7 +37,7 @@ class Prediction extends \yii\db\ActiveRecord
     {
         return [
             [['user_id', 'selected_team_id', 'fixture_id', 'user_price', 'win_price', 'updated_at', 'created_at'], 'integer'],
-            [['status'], 'string', 'max' => 255],
+            [['status', 'more_desc'], 'string', 'max' => 255],
 //            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }

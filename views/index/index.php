@@ -324,8 +324,12 @@ $this->title = "پیش بینی فوتبال";
                                     <?php } ?>
                                 </td>
                                 <td style="width:5%;">
-                                    <a class="btn-odds btn-odds-more" title="شرط های بیشتر"
-                                        href="<?=Yii::$app->getUrlManager()->createUrl('index/events')?>?id=<?=$fixture->fixture_id?>"></a>
+                                    <?php if(!$is_predicted){ ?>
+                                    <a style="padding-top: 2px;" class="btn-odds btn-odds-more" title="شرط های بیشتر"
+                                        href="<?=Yii::$app->getUrlManager()->createUrl('index/events')?>?id=<?=$fixture->fixture_id?>">
+                                        <span class="fa fa-plus-square" style="margin-top: 5px;"></span>
+                                    </a>
+                                    <?php } ?>
                                 </td>
 
                             </tr>
