@@ -28,7 +28,7 @@ $this->title = "پیش بینی فوتبال";
         </div>
         <div class="col-md-8 rightbar">
 
-            <div class="box">
+            <div class="box ajax">
                 <div class="header">
 
                     <div class="header-container">
@@ -167,7 +167,6 @@ $this->title = "پیش بینی فوتبال";
                                              style="width: 15px;height: 15px;">
                                         <span class="match_group_name">
                                             <?= $league_name ?>
-                                    </span>
                                         </span>
                                     </td>
                                     <td style="width:10%;">
@@ -204,7 +203,7 @@ $this->title = "پیش بینی فوتبال";
                                                 echo $localTeam_name;
                                                 ?>
                                             </td>
-                                            <td class="match_score">
+                                            <td class="match_score" style="width: 70px;">
                                                 <?php
                                                 if ($fixture->status != "NS" && $fixture->status != "CANCL") {
                                                     echo $fixture->localteam_score . ' - ' . $fixture->visitorteam_score;
@@ -218,7 +217,7 @@ $this->title = "پیش بینی فوتبال";
                                                 echo $visitorTeam_name;
                                                 ?>
                                             </td>
-                                            <td class="start_time <?php
+                                            <td style="width: 50px;" class="start_time <?php
                                                 if ($fixture->status == "LIVE" || $fixture->status == "ET") {
                                                     echo 'live-clock';
                                                 }
@@ -409,21 +408,33 @@ $this->title = "پیش بینی فوتبال";
 
     <script type="text/javascript">
         _csrf = "<?=\Yii::$app->request->csrfToken?>";
+        _url = "<?=Yii::$app->request->url?>";
 
-        setTimeout(function(){
-            window.location.reload(1);
-        }, 30000);
+        selected_ids = [];
+        sumPrice = 0;
+        sumOddsPrice = 0;
+        pricesObject = [];
+
+
     </script>
 
 <?php
 $this->registerJs(<<<JS
 
-    selected_ids = [];
-    sumPrice = 0;
-    sumOddsPrice = 0;
-    pricesObject = [];
-    
     $(document).ready(function(){
+        
+        (function worker() {
+            $.ajax({
+                url: _url,
+                success: function(data) {
+                    $('.ajax').html(data);
+                },
+                complete: function() {
+                    // Schedule the next request when the current one's complete
+                    setTimeout(worker, 20000);
+                }
+            });
+        })();
         
     function startTime() {
         

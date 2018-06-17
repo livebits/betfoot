@@ -259,7 +259,12 @@ class IndexController extends \yii\web\Controller
         }
 
         $is_inplay = false;
-        return $this->render('index', compact('fixtures', 'date', 'is_inplay'));
+        if(Yii::$app->request->isAjax){
+            return $this->renderAjax('index_partial', compact('fixtures', 'date', 'is_inplay'));
+
+        } else {
+            return $this->render('index', compact('fixtures', 'date', 'is_inplay'));
+        }
     }
 
     public function actionInplay()
@@ -279,7 +284,7 @@ class IndexController extends \yii\web\Controller
             }
         }
 
-//                $fixtures_ids = "9566499,10327959,8938349,8938351,8938353,9117063,10327960,8938411,8938413,8938415,8938417,9566501,9566502,9548233";
+//                $fixtures_ids = '10320412,10300974,9039918,10300976,10300978,10300980,10325823,10325825,10303562,9947466,9947468,9947470,10303571,10303573,8773524,10331318,10303928,10303930,10303931,10333142,9039575,9039576,9637388,10318050,10318052,10318053,10318054,10286566,9637386,9637387,9637389,10303561,9853515,10303568,10303569,10334224,9903161,9903162,10331194,9903163,9903164,10331196,9903165,10331345,5111561,5111565,10302748,4794142,4794145,10304040,10304042,10331211,10331212,10331213,9947469,10331214,8636011,5111673,10331319,10331320,10331321,9039577,10318047,10328564,10328566,10328568,10328569';
 
         if ($fixtures_ids == "") {
 
@@ -453,9 +458,9 @@ class IndexController extends \yii\web\Controller
                 }
 
             }
-
 //            if(!isset($fixture->odds) || (isset($fixture->odds) && count($fixture->odds) == 0)) {
             try {
+//                $fixture_odds = $client->fixtures()->oddsInPlay($fixture->fixture_id);
                 $fixture_odds = $client->fixtures()->oddsByBookmaker($fixture->fixture_id, 2);
 
                 foreach ($fixture_odds as $odds_obj) {
@@ -489,8 +494,15 @@ class IndexController extends \yii\web\Controller
 //            }
         }
 
-        $is_inplay = true;
-        return $this->render('index', compact('fixtures', 'is_inplay'));
+        if(Yii::$app->request->isAjax){
+            $is_inplay = true;
+            return $this->renderAjax('index_partial', compact('fixtures', 'is_inplay'));
+
+        } else {
+
+            $is_inplay = true;
+            return $this->render('index', compact('fixtures', 'is_inplay'));
+        }
     }
 
     public function actionInplay2()
@@ -918,7 +930,11 @@ class IndexController extends \yii\web\Controller
 
 //            }
 
-//        $is_inplay = true;
-        return $this->render('events', compact('fixture'));
+        if(Yii::$app->request->isAjax){
+            return $this->renderAjax('events_partial', compact('fixture'));
+
+        } else {
+            return $this->render('events', compact('fixture'));
+        }
     }
 }
