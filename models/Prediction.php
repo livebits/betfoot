@@ -49,7 +49,7 @@ class Prediction extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user_id' => 'User ID',
+            'user_id' => 'کد کاربر',
             'selected_team_id' => 'نوع شرط',
             'fixture_id' => 'Fixture ID',
             'user_price' => 'مبلغ شرط',

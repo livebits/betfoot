@@ -63,13 +63,21 @@ $config = [
             // Comment this if you don't want to record user logins
             'on afterLogin' => function($event) {
 
+                $session = Yii::$app->session;
+
                 $userProfile = \app\models\UserProfile::find()
                     ->where('user_id=' . Yii::$app->user->id)
                     ->asArray()
                     ->one();
 
+                $user = (new \yii\db\Query())
+                    ->select(['isAdmin'])
+                    ->from('user')
+                    ->where(['id' => Yii::$app->user->id])
+                    ->one();
+                $session->set('isAdmin', $user['isAdmin']);
+
                 if($userProfile){
-                    $session = Yii::$app->session;
                     $session->set('userInfo', $userProfile);
                 }
 

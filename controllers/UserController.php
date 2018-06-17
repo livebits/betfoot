@@ -2,8 +2,10 @@
 
 namespace app\controllers;
 use app\models\Fixture;
+use app\models\Message;
 use app\models\Prediction;
 use app\models\UserWallet;
+use app\models\Withdraw;
 use Yii;
 use app\models\UserProfile;
 use yii\filters\AccessControl;
@@ -190,9 +192,56 @@ class UserController extends \yii\web\Controller
         return $this->redirect(Yii::$app->getUrlManager()->createUrl('user').'?action=history');
     }
 
-    public function actionSetBets()
+    public function actionSendMessage()
     {
 
+        $request = Yii::$app->request;
+        $subject = $request->post('subject');
+        $message = $request->post('message');
+
+        $new_message = new Message();
+        $new_message->user_id = Yii::$app->user->id;
+        $new_message->subject = $subject;
+        $new_message->message = $message;
+        $new_message->created_at = time();
+
+        if($new_message->save()) {
+            return $this->redirect(Yii::$app->getUrlManager()->createUrl('user/index?action=message&params=ok'));
+
+        } else {
+            return $this->redirect(Yii::$app->getUrlManager()->createUrl('user/index?action=message&params=nok'));
+        }
+    }
+
+    public function actionWithdraw(){
+
+        $request = Yii::$app->request;
+
+        $price = $request->post('price');
+        $account_owner = $request->post('account_owner');
+        $bank_name = $request->post('bank_name');
+        $account_number = $request->post('account_number');
+        $card_number = $request->post('card_number');
+        $shaba_number = $request->post('shaba_number');
+
+        $withdraw = new Withdraw();
+        $withdraw->user_id = Yii::$app->user->id;
+        $withdraw->price = $price;
+        $withdraw->account_owner = $account_owner;
+        $withdraw->account_number = $account_number;
+        $withdraw->bank_name = $bank_name;
+        $withdraw->card_number = $card_number;
+        $withdraw->shaba_number = $shaba_number;
+
+        $withdraw->status = "requested";
+        $withdraw->created_at = time();
+
+        if($withdraw->save()) {
+            return $this->redirect(Yii::$app->getUrlManager()->createUrl('user/index?action=withdraw&params=ok'));
+
+        } else {
+            return $this->redirect(Yii::$app->getUrlManager()->createUrl('user/index?action=withdraw&params=nok'));
+        }
     }
 
 }

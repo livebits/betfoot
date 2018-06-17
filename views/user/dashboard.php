@@ -33,10 +33,28 @@
                             echo 'ارسال پیام';
 
                         } else if($action == "messages"){
-                            echo 'پیام های دریافتی';
+                            echo 'پیام های من';
 
                         } else if($action == "forget"){
                             echo 'تغییر کلمه عبور';
+
+                        } else if($action == "site-account"){
+                            echo 'خلاصه حساب سایت';
+
+                        } else if($action == "users"){
+                            echo 'مدیریت کاربران';
+
+                        } else if($action == "users-history"){
+                            echo 'پیشبینی کاربران';
+
+                        } else if($action == "users-transactions"){
+                            echo 'تراکنش های کاربران';
+
+                        } else if($action == "users-withdraw"){
+                            echo 'درخواست های برداشت';
+
+                        } else if($action == "users-messages"){
+                            echo 'پیام های کاربران';
 
                         }
                         ?>
@@ -71,6 +89,24 @@
                         } else if($action == "forget"){
                             echo $this->render('forget-pass', compact('params'));
 
+                        } else if($action == "site-account"){
+                            echo $this->render('site-account', compact('params'));
+
+                        } else if($action == "users"){
+                            echo $this->render('users', compact('params'));
+
+                        } else if($action == "users-history"){
+                            echo $this->render('users-history', compact('params'));
+
+                        } else if($action == "users-transactions"){
+                            echo $this->render('users-transactions', compact('params'));
+
+                        } else if($action == "users-withdraw"){
+                            echo $this->render('users-withdraw', compact('params'));
+
+                        } else if($action == "users-messages"){
+                            echo $this->render('users-messages', compact('params'));
+
                         }
                     ?>
 
@@ -87,6 +123,62 @@
                     </div>
                 </div>
                 <div class="body">
+
+                    <?php
+                        $session = Yii::$app->session;
+                        $isAdmin = $session->get('isAdmin');
+                    ?>
+
+                    <?php
+                        if($isAdmin){
+                            ?>
+                            <div class="dash-menu-btn">
+                                <a <?php if($action == "site-account" || $action == "") {  ?> class="active" <?php } ?> href="<?php echo Yii::$app->getUrlManager()->createUrl('user'); ?>?action=site-account">
+                                    خلاصه حساب سایت
+                                </a>
+                            </div>
+                            <div class="menu-divider"></div>
+
+                            <div class="dash-menu-btn">
+                                <a <?php if($action == "users") {  ?> class="active" <?php } ?> href="<?php echo Yii::$app->getUrlManager()->createUrl('user'); ?>?action=users">
+                                    مدیریت کاربران
+                                </a>
+                            </div>
+                            <div class="menu-divider"></div>
+
+                            <div class="dash-menu-btn">
+                                <a <?php if($action == "users-history") {  ?> class="active" <?php } ?> href="<?php echo Yii::$app->getUrlManager()->createUrl('user'); ?>?action=users-history">
+                                    پیشبینی کاربران
+                                </a>
+                            </div>
+                            <div class="menu-divider"></div>
+
+                            <div class="dash-menu-btn">
+                                <a <?php if($action == "users-transactions") {  ?> class="active" <?php } ?> href="<?php echo Yii::$app->getUrlManager()->createUrl('user'); ?>?action=users-transactions">
+                                     تراکنش های کاربران
+                                </a>
+                            </div>
+                            <div class="menu-divider"></div>
+
+                            <div class="dash-menu-btn">
+                                <a <?php if ($action == "users-withdraw") { ?> class="active" <?php } ?>
+                                        href="<?php echo Yii::$app->getUrlManager()->createUrl('user'); ?>?action=users-withdraw">
+                                    درخواست های برداشت
+                                </a>
+                            </div>
+                            <div class="menu-divider"></div>
+
+                            <div class="dash-menu-btn">
+                                <a <?php if ($action == "users-messages") { ?> class="active" <?php } ?>
+                                        href="<?php echo Yii::$app->getUrlManager()->createUrl('user'); ?>?action=users-messages">
+                                    پیام های کاربران
+                                </a>
+                            </div>
+                            <div class="menu-divider"></div>
+
+                    <?php
+                        }
+                    ?>
 
                     <div class="dash-menu-btn">
                         <a <?php if($action == "account" || $action == "") {  ?> class="active" <?php } ?> href="<?php echo Yii::$app->getUrlManager()->createUrl('user'); ?>?action=account">
@@ -116,26 +208,47 @@
                     </div>
                     <div class="menu-divider"></div>
 
-                    <div class="dash-menu-btn">
-                        <a <?php if($action == "withdraw") {  ?> class="active" <?php } ?> href="<?php echo Yii::$app->getUrlManager()->createUrl('user'); ?>?action=withdraw">
-                            درخواست برداشت
-                        </a>
-                    </div>
-                    <div class="menu-divider"></div>
+                    <?php
+                    if(!$isAdmin) {
+                        ?>
+                        <div class="dash-menu-btn">
+                            <a <?php if ($action == "withdraw") { ?> class="active" <?php } ?>
+                                    href="<?php echo Yii::$app->getUrlManager()->createUrl('user'); ?>?action=withdraw">
+                                درخواست برداشت
+                            </a>
+                        </div>
+                        <div class="menu-divider"></div>
+                        <?php
+                    }
+                    ?>
 
-                    <div class="dash-menu-btn">
-                        <a <?php if($action == "message") {  ?> class="active" <?php } ?> href="<?php echo Yii::$app->getUrlManager()->createUrl('user'); ?>?action=message">
-                            ارسال پیام
-                        </a>
-                    </div>
-                    <div class="menu-divider"></div>
+                    <?php
+                    if(!$isAdmin) {
+                        ?>
+                        <div class="dash-menu-btn">
+                            <a <?php if ($action == "message") { ?> class="active" <?php } ?>
+                                    href="<?php echo Yii::$app->getUrlManager()->createUrl('user'); ?>?action=message">
+                                ارسال پیام
+                            </a>
+                        </div>
+                        <div class="menu-divider"></div>
+                        <?php
+                    }
+                    ?>
 
-                    <div class="dash-menu-btn">
-                        <a <?php if($action == "messages") {  ?> class="active" <?php } ?> href="<?php echo Yii::$app->getUrlManager()->createUrl('user'); ?>?action=messages">
-                            پیام های دریافتی
-                        </a>
-                    </div>
-                    <div class="menu-divider"></div>
+                    <?php
+                    if(!$isAdmin) {
+                        ?>
+                        <div class="dash-menu-btn">
+                            <a <?php if ($action == "messages") { ?> class="active" <?php } ?>
+                                    href="<?php echo Yii::$app->getUrlManager()->createUrl('user'); ?>?action=messages">
+                                پیام های من
+                            </a>
+                        </div>
+                        <div class="menu-divider"></div>
+                        <?php
+                    }
+                        ?>
 
                     <div class="dash-menu-btn">
                         <a <?php if($action == "forget") {  ?> class="active" <?php } ?> href="<?php echo Yii::$app->getUrlManager()->createUrl('user'); ?>?action=forget">
