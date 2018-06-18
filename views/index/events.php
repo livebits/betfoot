@@ -271,7 +271,8 @@ $this->title = "پیش بینی فوتبال";
                                         continue;
                                     }
 
-                                    if ($odd->odds_id == 12 || $odd->odds_id == 38 || $odd->odds_id == 47) {
+                                    if ($odd->odds_id == 12 || $odd->odds_id == 38 || $odd->odds_id == 47 ||
+                                        $odd->odds_id == 976198 || $odd->odds_id == 976204 || $odd->odds_id == 976384) {
 
                                         $index = 0;
                                         foreach ($game_odds as $game_odd) {
@@ -308,6 +309,34 @@ $this->title = "پیش بینی فوتبال";
 
                                             <?php
                                         }
+                                    } else if ($odd->odds_id == 976334 ) {
+
+                                        $index = 0;
+                                        foreach ($game_odds as $game_odd) {
+
+
+                                            ?>
+
+                                            <div class="btn-odds game_odds col-md-5" style="width: 100%;"
+                                                 data-odds-id="<?= $fixture->fixture_id . '_' . $odd->odds_id . '_' . $index++ ?>"
+                                                 data-odd-label="<?= $odd->name . ' / ' . $label . ' ' . $game_odd->total ?>"
+                                                 data-odds="<?= $game_odd->value ?>"
+                                                 data-fixture="<?= $fixture->fixture_id ?>"
+                                                 data-home="<?= $localTeam_name ?>"
+                                                 data-away="<?= $visitorTeam_name ?>">
+                                            <span class="text-center">
+                                            <?php
+
+                                            echo $game_odd->label . ' ' . $game_odd->total;
+                                            ?>
+                                            </span>
+                                                <span class="text-left" style="float: left;margin-left: 5px;">
+                                                <?= $game_odd->value ?>
+                                            </span>
+                                            </div>
+
+                                            <?php
+                                        }
                                     } else if ($odd->odds_id == 37 || $odd->odds_id == 80) {
 
                                         $index = 0;
@@ -320,6 +349,8 @@ $this->title = "پیش بینی فوتبال";
                                                 $label = 'میهمان';
                                             } else if ($label == "X") {
                                                 $label = 'مساوی';
+                                            } else if ($label == 'No goal') {
+                                                $label = 'بدون گل';
                                             }
                                             ?>
 
@@ -339,6 +370,43 @@ $this->title = "پیش بینی فوتبال";
                                             } else if ($game_odd->label == "X") {
                                                 echo 'مساوی';
                                             }
+                                            ?>
+                                            </span>
+                                                <span class="text-left" style="float: left;margin-left: 5px;">
+                                                <?= $game_odd->value ?>
+                                            </span>
+                                            </div>
+
+                                            <?php
+                                        }
+
+                                    } else if ( $odd->odds_id == 976187 || $odd->odds_id == 976265 || $odd->odds_id == 977179) {
+
+                                        $index = 0;
+                                        foreach ($game_odds as $game_odd) {
+
+                                            $label = $game_odd->label;
+                                            if ($label == "1") {
+                                                $label = 'میزبان';
+                                            } else if ($label == "2") {
+                                                $label = 'میهمان';
+                                            } else if ($label == "X") {
+                                                $label = 'مساوی';
+                                            } else if ($label == 'No goal') {
+                                                $label = 'بدون گل';
+                                            }
+                                            ?>
+
+                                            <div class="btn-odds game_odds col-md-5" style="width: 100%;"
+                                                 data-odds-id="<?= $fixture->fixture_id . '_' . $odd->odds_id . '_' . $index++ ?>"
+                                                 data-odd-label="<?= $odd->name . ' / ' . $label ?>"
+                                                 data-odds="<?= $game_odd->value ?>"
+                                                 data-fixture="<?= $fixture->fixture_id ?>"
+                                                 data-home="<?= $localTeam_name ?>"
+                                                 data-away="<?= $visitorTeam_name ?>">
+                                            <span class="text-center">
+                                            <?php
+                                            echo $label;
                                             ?>
                                             </span>
                                                 <span class="text-left" style="float: left;margin-left: 5px;">
@@ -412,7 +480,7 @@ $this->title = "پیش بینی فوتبال";
                                                  data-fixture="<?= $fixture->fixture_id ?>"
                                                  data-home="<?= $localTeam_name ?>"
                                                  data-away="<?= $visitorTeam_name ?>">
-                                            <span class="text-center">
+                                            <span style="float: right;">
                                             <?php
                                             if ($game_odd->label == "1") {
                                                 echo 'میزبان';
@@ -423,7 +491,12 @@ $this->title = "پیش بینی فوتبال";
                                             }
                                             ?>
                                             </span>
-                                                <span class="text-left" style="float: left;margin-left: 5px;">
+                                                <span class="text-center">
+                                                    <?php
+                                                    echo $game_odd->handicap;
+                                                    ?>
+                                            </span>
+                                            <span class="text-left" style="float: left;margin-left: 5px;">
                                                 <?= $game_odd->value ?>
                                             </span>
                                             </div>
