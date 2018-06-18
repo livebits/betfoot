@@ -206,7 +206,7 @@ class UserController extends \yii\web\Controller
         $new_message->created_at = time();
 
         if($new_message->save()) {
-            return $this->redirect(Yii::$app->getUrlManager()->createUrl('user/index?action=message&params=ok'));
+            return $this->redirect(Yii::$app->getUrlManager()->createUrl('user/index?action=messages&params=ok'));
 
         } else {
             return $this->redirect(Yii::$app->getUrlManager()->createUrl('user/index?action=message&params=nok'));

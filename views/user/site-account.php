@@ -12,13 +12,19 @@ use yii\helpers\Html;
 
         <div class="col-md-1"></div>
         <div class="panel panel-default col-md-4">
-            <div class="panel-heading text-center">موجودی حساب</div>
+            <div class="panel-heading text-center">موجودی حساب سایت</div>
             <div class="panel-body">
                 <?php
-                $myProfile = \app\models\UserProfile::find()
-                    ->where('user_id=' . Yii::$app->user->id)
-                    ->one();
-                $wallet = $myProfile->wallet;
+                $profiles = (new \yii\db\Query())
+                    ->select('wallet')
+                    ->from('user_profile')
+                    ->all();
+
+                $wallet = 0;
+                foreach ($profiles as $profile) {
+                    $wallet += $profile['wallet'];
+                }
+
                 if(!$wallet){
                     $wallet = 0;
                 }
@@ -49,7 +55,7 @@ use yii\helpers\Html;
             <div class="panel-body">
                 <?php
                 $predictions = \app\models\Prediction::find()
-                    ->where('user_id=' . Yii::$app->user->id)
+                    ->where('id>0')
                     ->count();
 
                 echo $predictions;
@@ -66,7 +72,6 @@ use yii\helpers\Html;
                 <?php
                 $predictions = \app\models\Prediction::find()
                     ->select('SUM(user_price) as sum')
-                    ->where('user_id=' . Yii::$app->user->id)
                     ->asArray()
                     ->all();
 

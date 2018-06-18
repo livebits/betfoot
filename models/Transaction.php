@@ -45,7 +45,7 @@ class Transaction extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user_id' => 'User ID',
+            'user_id' => 'کد کاربر',
             'amount' => 'مبلغ (تومان)',
             'authority' => 'Authority',
             'status' => 'وضعیت',

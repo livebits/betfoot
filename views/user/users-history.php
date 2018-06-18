@@ -25,7 +25,14 @@ use yii\data\ActiveDataProvider;
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'user_id',
+            [
+                'label' => 'نام کاربر',
+                'attribute' => 'user_id',
+                'value' => function ($model) {
+                    $profile = \app\models\UserProfile::find()->where('user_id='.$model->user_id)->one();
+                    return $profile->firstName . ' ' . $profile->lastName;
+                }
+            ],
             [
                 'label' => '',
                 'value' => function ($model) {

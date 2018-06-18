@@ -450,7 +450,7 @@ $this->title = "پیش بینی فوتبال";
                                             </span>
                                                 <span class="text-left" style="float: left;margin-left: 5px;">
                                                 <?= $game_odd->value ?>
-                                            </span>
+                                                </span>
                                             </div>
 
                                             <?php

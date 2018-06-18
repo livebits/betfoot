@@ -5,55 +5,61 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use yii\data\ActiveDataProvider;
 ?>
-
+<style>
+    table th {
+        color: #ffffff;
+    }
+</style>
 <div class="transaction-box">
 
     <?php
 
-        $transactions = \app\models\Transaction::find()
-            ->where('user_id='. Yii::$app->user->id)
-            ->orderBy('id DESC');
+        $users = (new \yii\db\Query())
+            ->select(['user.*', 'user_profile.*'])
+            ->from('user')
+            ->leftJoin('user_profile', 'user_profile.user_id = user.id')
+//            ->where('isAdmin != 1')
+            ->orderBy('user.id DESC');
 
     $dataProvider = new ActiveDataProvider([
-        'query' => $transactions,
+        'query' => $users,
         'pagination' => [
             'pageSize' => 20,
         ],
     ]);
     echo GridView::widget([
         'dataProvider' => $dataProvider,
-        'rowOptions' => function ($model) {
-            if ($model->id == 'test') {
-                return ['class' => 'info'];
-            }
-        },
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
-                'attribute' => 'amount',
+                'attribute' => 'username',
+                'label' => 'ایمیل',
                 'value' => function ($data) {
-                    return number_format($data->amount);
-                },
+                    return $data['username'];
+                }
             ],
             [
-                'attribute' => 'status',
+                'label' => 'نام کاربر',
                 'value' => function ($data) {
-                    if ($data->status == "started") {
-                        return 'در حال بررسی';
-
-                    } else if ($data->status == "ok") {
-                        return 'تایید شده';
-
-                    } else if ($data->status == "nok") {
-                        return 'رد شده';
-
-                    }
-                },
+                    return $data['firstName'] . ' ' . $data['lastName'];
+                }
+            ],
+            [
+                'label' => 'شماره موبایل',
+                'value' => function ($data) {
+                    return $data['mobile'];
+                }
+            ],
+            [
+                'label' => 'کیف پول (پول)',
+                'value' => function ($data) {
+                    return isset($data['wallet']) ? number_format($data['wallet']) : 0;
+                }
             ],
             [
                 'attribute' => 'created_at',
                 'value' => function ($data) {
-                    return \app\components\Jdf::jdate('Y/m/d', $data->created_at);
+                    return \app\components\Jdf::jdate('Y/m/d', $data['created_at']);
                 },
             ],
         ],

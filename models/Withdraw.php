@@ -39,7 +39,7 @@ class Withdraw extends \yii\db\ActiveRecord
         return [
             [['user_id', 'price', 'updated_at', 'created_at'], 'integer'],
             [['account_owner', 'bank_name', 'account_number', 'card_number', 'shaba_number', 'status'], 'string', 'max' => 255],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+//            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
