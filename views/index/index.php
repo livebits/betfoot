@@ -408,7 +408,25 @@ $this->title = "پیش بینی فوتبال";
 
     <script type="text/javascript">
         _csrf = "<?=\Yii::$app->request->csrfToken?>";
-        _url = "<?=Yii::$app->request->url?>";
+        _url = "<?php
+
+            $url_arr = explode('/', Yii::$app->request->url);
+            $is_inplay = false;
+            $is_match_list = false;
+            foreach ($url_arr as $url){
+                if(preg_match("/inplay/", $url)) {
+                    $is_inplay = true;
+                } else if(preg_match("/match/", $url)) {
+                    $is_match_list = true;
+                }
+            }
+
+            if($is_inplay) {
+                echo Yii::$app->urlManager->baseUrl . '/index/ajax-inplay';
+            } else {
+                echo Yii::$app->urlManager->baseUrl . '/index/ajax-match-list?' . explode('?', $url_arr[count($url_arr) - 1])[1];
+            }
+            ?>";
 
         selected_ids = [];
         sumPrice = 0;

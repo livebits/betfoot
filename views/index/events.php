@@ -601,7 +601,11 @@ $this->title = "پیش بینی فوتبال";
 
     <script type="text/javascript">
         _csrf = "<?=\Yii::$app->request->csrfToken?>";
-        _url = "<?=Yii::$app->request->url?>";
+        _url = "<?php
+            $url_arr = explode('/', Yii::$app->request->url);
+
+            echo Yii::$app->urlManager->baseUrl . '/index/ajax-events?' . explode('?', $url_arr[count($url_arr) - 1])[1];
+            ?>";
 
         selected_ids = [];
         sumPrice = 0;

@@ -19,10 +19,12 @@ use SportMonks\API\Utilities\Auth;
 class IndexController extends \yii\web\Controller
 {
 
-    public function actionMatchList($date)
-    {
+    public function actionAjaxMatchList($date) {
+        return $this->actionMatchList($date, true);
+    }
 
-//        $date = yii::$app->request->get('date');
+    public function actionMatchList($date, $isAjax = false)
+    {
 
         $client = SportMonks::init();
 
@@ -125,10 +127,10 @@ class IndexController extends \yii\web\Controller
 
         }
 
-        return $this->Show($date);
+        return $this->Show($date, $isAjax);
     }
 
-    public function Show($date)
+    public function Show($date, $isAjax)
     {
 
         $date = $date->format('Y-m-d');
@@ -259,7 +261,7 @@ class IndexController extends \yii\web\Controller
         }
 
         $is_inplay = false;
-        if(Yii::$app->request->isAjax){
+        if($isAjax){
             return $this->renderAjax('index_partial', compact('fixtures', 'date', 'is_inplay'));
 
         } else {
@@ -267,9 +269,12 @@ class IndexController extends \yii\web\Controller
         }
     }
 
-    public function actionInplay()
-    {
+    public function actionAjaxInplay(){
+        return $this->actionInplay(true);
+    }
 
+    public function actionInplay($isAjax = false)
+    {
         $client = SportMonks::init();
         $games = $client->liveScores()->inPlay();
 
@@ -494,7 +499,7 @@ class IndexController extends \yii\web\Controller
 //            }
         }
 
-        if(Yii::$app->request->isAjax){
+        if($isAjax){
             $is_inplay = true;
             return $this->renderAjax('index_partial', compact('fixtures', 'is_inplay'));
 
@@ -505,7 +510,11 @@ class IndexController extends \yii\web\Controller
         }
     }
 
-    public function actionEvents($id)
+    public function actionAjaxEvents($id) {
+        return $this->actionEvents($id, true);
+    }
+
+    public function actionEvents($id, $isAjax = false)
     {
         $client = SportMonks::init();
 
@@ -703,7 +712,7 @@ class IndexController extends \yii\web\Controller
 
 //            }
 
-        if(Yii::$app->request->isAjax){
+        if($isAjax){
             return $this->renderAjax('events_partial', compact('fixture'));
 
         } else {
