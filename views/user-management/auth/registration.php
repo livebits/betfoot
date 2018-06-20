@@ -45,6 +45,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     <?= $form->field($model, 'mobile') ?>
 
+                    <?= $form->field($model, 'reagent') ?>
+
                     <?= $form->field($model, 'username')->textInput(['maxlength' => 50, 'autocomplete'=>'off', 'autofocus'=>true]) ?>
 
                     <?= $form->field($model, 'password')->passwordInput(['maxlength' => 255, 'autocomplete'=>'off']) ?>

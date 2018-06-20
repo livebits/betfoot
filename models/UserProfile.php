@@ -13,6 +13,8 @@ use Yii;
  * @property string $lastName
  * @property string $mobile
  * @property string $wallet
+ * @property string $reagent_code
+ * @property string $reagent_id
  * @property int $created_at
  * @property int $updated_at
  *
@@ -58,9 +60,9 @@ class UserProfile extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'created_at', 'updated_at'], 'integer'],
+            [['user_id', 'created_at', 'updated_at', 'reagent_id'], 'integer'],
             [['firstName', 'lastName', 'mobile'], 'string'],
-            [['firstName', 'lastName'], 'string', 'max' => 255],
+            [['firstName', 'lastName', 'reagent_code'], 'string', 'max' => 255],
             [['mobile'], 'string', 'max' => 12],
             [['mobile'], 'unique'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
@@ -78,6 +80,8 @@ class UserProfile extends \yii\db\ActiveRecord
             'firstName' => 'نام',
             'lastName' => 'نام خانوادگی',
             'mobile' => 'موبایل',
+            'reagent_code' => 'کد معرف',
+            'reagent_id' => 'معرف',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

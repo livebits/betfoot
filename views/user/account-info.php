@@ -107,4 +107,50 @@ use yii\helpers\Html;
         <div class="col-md-1"></div>
 
     </div>
+
+
+    <div class="row">
+
+        <div class="col-md-1"></div>
+        <div class="panel panel-default col-md-4">
+            <div class="panel-heading text-center">کد معرف من</div>
+            <div class="panel-body">
+                <?php
+                $myProfile = \app\models\UserProfile::find()
+                    ->where('user_id=' . Yii::$app->user->id)
+                    ->one();
+                $reagent_code = $myProfile->reagent_code;
+                if(!$reagent_code){
+                    $reagent_code = Yii::$app->user->id + 30000;
+
+                    \app\models\UserProfile::updateAll(['reagent_code' => $reagent_code], ['user_id' => Yii::$app->user->id]);
+                }
+                echo $reagent_code;
+                ?>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+
+        <div class="col-md-1"></div>
+        <div class="panel panel-default col-md-4">
+            <div class="panel-heading text-center"> معرف من</div>
+            <div class="panel-body">
+                <?php
+                $myProfile = \app\models\UserProfile::find()
+                    ->where('user_id=' . Yii::$app->user->id)
+                    ->one();
+                $reagent_user = $myProfile->reagent_id;
+                if($reagent_user){
+                    $reagentProfile = \app\models\UserProfile::find()
+                        ->where('user_id=' . $reagent_user)
+                        ->one();
+
+                    echo $reagentProfile->firstName . ' ' . $reagentProfile->lastName;
+                }
+                ?>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+
+    </div>
 </div>

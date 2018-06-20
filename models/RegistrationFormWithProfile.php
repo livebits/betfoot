@@ -14,6 +14,7 @@ class RegistrationFormWithProfile extends RegistrationForm
     public $firstName;
     public $lastName;
     public $mobile;
+    public $reagent;
 
     /**
      * @return array
@@ -22,8 +23,8 @@ class RegistrationFormWithProfile extends RegistrationForm
     {
         return ArrayHelper::merge(parent::rules(), [
             [['firstName', 'lastName', 'mobile'], 'required'],
-            [['firstName', 'lastName', 'mobile'], 'string'],
-            [['firstName', 'lastName', 'mobile'], 'trim'],
+            [['firstName', 'lastName', 'mobile', 'reagent'], 'string'],
+            [['firstName', 'lastName', 'mobile', 'reagent'], 'trim'],
             [['firstName', 'lastName', 'mobile'], 'purgeXSS'],
         ]);
     }
@@ -37,6 +38,7 @@ class RegistrationFormWithProfile extends RegistrationForm
             'firstName' => 'نام',
             'lastName' => 'نام خانوادگی',
             'mobile' => 'شماره موبایل',
+            'reagent' => 'کد معرف',
         ]);
     }
 
@@ -44,7 +46,6 @@ class RegistrationFormWithProfile extends RegistrationForm
         $validations = $this->validateProfile();
         if ($validations == null) {
             return parent::registerUser($performValidation);
-//            return redire
         } else {
             foreach ($validations as $validation_key => $validation_value) {
                 $this->addError($validation_key, $validation_value[0]);
@@ -60,7 +61,15 @@ class RegistrationFormWithProfile extends RegistrationForm
         $model->mobile = $this->mobile;
         $model->wallet = 0;
 
-        if ($model->validate()) {
+        if($this->reagent != "") {
+
+            $reagentUser = UserProfile::find()->where('reagent_code=' . $this->reagent)->one();
+            if (!$reagentUser) {
+                $model->addError('reagent', 'کد معرف وارد شده اشتباه می باشد');
+            }
+        }
+
+        if (count($model->errors) == 0) {
             return null;
         } else {
             // validation failed: $errors is an array containing error messages
@@ -83,6 +92,17 @@ class RegistrationFormWithProfile extends RegistrationForm
         $model->firstName = $this->firstName;
         $model->lastName = $this->lastName;
         $model->mobile = $this->mobile;
+
+        if($this->reagent) {
+            $reagentUser = UserProfile::find()
+                ->where('reagent_code=' . $this->reagent)
+                ->one();
+
+            if ($reagentUser) {
+
+                $model->reagent_id = $reagentUser->user_id;
+            }
+        }
 
         $model->created_at = time();
 
