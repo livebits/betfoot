@@ -20,6 +20,9 @@
                         } else if($action == "account" || $action == ""){
                             echo 'خلاصه حساب';
 
+                        } else if($action == "user-charge"){
+                            echo 'شارژ حساب کاربر';
+
                         } else if($action == "history"){
                             echo 'سابقه پیشبینی';
 
@@ -70,6 +73,9 @@
 
                         } else if($action == "account" || $action == ""){
                             echo $this->render('account-info', compact('params'));
+
+                        } else if($action == "user-charge"){
+                            echo $this->render('user-charge', compact('params'));
 
                         } else if($action == "history"){
                             echo $this->render('history', compact('params'));
@@ -142,6 +148,13 @@
                             <div class="dash-menu-btn">
                                 <a <?php if($action == "users") {  ?> class="active" <?php } ?> href="<?php echo Yii::$app->getUrlManager()->createUrl('user'); ?>?action=users">
                                     مدیریت کاربران
+                                </a>
+                            </div>
+                            <div class="menu-divider"></div>
+
+                            <div class="dash-menu-btn">
+                                <a <?php if($action == "user-charge") {  ?> class="active" <?php } ?> href="<?php echo Yii::$app->getUrlManager()->createUrl('user'); ?>?action=user-charge">
+                                    شارژ حساب کاربر
                                 </a>
                             </div>
                             <div class="menu-divider"></div>

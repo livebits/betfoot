@@ -9,6 +9,51 @@ use Yii;
 class PaymentController extends \yii\web\Controller
 {
 
+    public function actionCharge() {
+
+        $request = yii::$app->request;
+
+        $username = $request->post('user_name');
+        $amount = $request->post('amount');
+
+        $data = (new \yii\db\Query())
+            ->select(['id'])
+            ->from('user')
+            ->where('username="' . $username . '"')
+            ->one();
+
+        if($data) {
+
+            $userWallet = new UserWallet();
+            $userWallet->amount = $amount;
+            $userWallet->user_id = $data['id'];
+            $userWallet->comment = "شارژ حساب";
+            $userWallet->type = "1";
+            $userWallet->created_at = time();
+
+            $userWallet->save();
+
+            $myProfile = UserProfile::find()
+                ->where('user_id=' . $data['id'])
+                ->one();
+
+            if ($myProfile->wallet){
+
+                $newAmount = $myProfile->wallet + $amount;
+            } else {
+                $newAmount = $amount;
+            }
+
+            UserProfile::updateAll(['wallet' => $newAmount], 'user_id=' . $data['id']);
+
+            return $this->redirect(Yii::$app->getUrlManager()->createUrl('user/index?action=user-charge&params=ok'));
+        } else {
+
+            return $this->redirect(Yii::$app->getUrlManager()->createUrl('user/index?action=user-charge&params=nok'));
+        }
+
+    }
+
     public function actionRequest()
     {
         $request = yii::$app->request;
