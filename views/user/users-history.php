@@ -91,7 +91,7 @@ use yii\data\ActiveDataProvider;
                     if ($data->status == "notCalc") {
                         return 'محاسبه نشده';
 
-                    } else if ($data->status == "calc") {
+                    } else if ($data->status == "Calc") {
                         return 'محاسبه شده';
 
                     }

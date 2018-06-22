@@ -116,13 +116,19 @@ class SiteController extends BaseController
         ]);
     }
 
-    /**
-     * Displays about page.
-     *
-     * @return string
-     */
-    public function actionAbout()
+
+    public function actionHelp()
     {
-        return $this->render('about');
+        return $this->render('help');
     }
+
+    public function actionSupport()
+    {
+        return $this->redirect(Yii::$app->getUrlManager()->createUrl('user/index?action=message'));
+    }
+
+//    public function actionRules()
+//    {
+//        return $this->render('about');
+//    }
 }

@@ -7,6 +7,7 @@ use app\models\Fixture;
 use app\models\Odds;
 use app\models\Prediction;
 use app\models\UserProfile;
+use app\models\UserWallet;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -31,28 +32,17 @@ class CronController extends BaseController
         $predictions_size = count($predictions);
         for ($i = 0; $i < $predictions_size; $i++) {
             if ($i == $predictions_size - 1) {
-                $fixtures_ids .= $predictions[$i]->id;
+                $fixtures_ids .= $predictions[$i]->fixture_id;
             } else {
 
-                $fixtures_ids .= $predictions[$i]->id . ',';
+                $fixtures_ids .= $predictions[$i]->fixture_id . ',';
             }
         }
-
-        $fixtures = Fixture::find()
-            ->with('odds')
-            ->where('fixture_id IN (' . $fixtures_ids . ')')
-            ->all();
 
         foreach ($predictions as $prediction) {
             $game = $client->fixtures()->find($prediction->fixture_id);
 
-            $fixture = null;
-            foreach ($fixtures as $fixture_item) {
-                if ($fixture_item->fixture_id == $prediction->fixture_id) {
-                    $fixture = $fixture_item;
-                    break;
-                }
-            }
+            $fixture = Fixture::find()->where('fixture_id=' . $prediction->fixture_id)->one();
 
             if (!$fixture) {
                 $fixture = new Fixture();
@@ -118,10 +108,15 @@ class CronController extends BaseController
             $fixture->save();
         }
 
+        if($fixtures_ids == "") {
+            return;
+        }
+
         $fixtures = Fixture::find()
             ->with('odds')
             ->where('fixture_id IN (' . $fixtures_ids . ')')
             ->andWhere('status="FT"')
+            ->andWhere('winning_odds_calculated=1')
             ->all();
 
         foreach ($fixtures as $fixture) {
@@ -209,8 +204,8 @@ class CronController extends BaseController
                         $userWallet = new UserWallet();
                         $userWallet->amount = $prediction->win_price;
                         $userWallet->user_id = $prediction->user_id;
-                        $userWallet->comment = "برد پیشبینی " + $prediction->id;
-                        $userWallet->type = "1";
+                        $userWallet->comment = "WIN_" . $prediction->id;
+                        $userWallet->type = "WIN";
                         $userWallet->created_at = time();
 
                         $userWallet->save();
@@ -227,18 +222,16 @@ class CronController extends BaseController
                         UserProfile::updateAll(['wallet' => $newAmount], 'user_id=' . $prediction->user_id);
                     }
 
-                    Prediction::updateAll(['status' => 'Calc'], 'id=' . $prediction->id);
+                    Prediction::updateAll(['status' => 'Calc', 'updated_at' => time()], 'id=' . $prediction->id);
                 }
 
-            } else {
+            }
+
+            else {
 
                 $desc = $prediction->more_desc;
                 $odds_id = explode('_', $desc)[1];
                 $sub_odds_id = explode('_', $desc)[2];
-
-
-                $selected_team_id = $prediction->selected_team_id;
-
 
                 $fixture_odds = null;
                 foreach ($fixture->odds as $odd) {
@@ -264,8 +257,8 @@ class CronController extends BaseController
                         $userWallet = new UserWallet();
                         $userWallet->amount = $prediction->win_price;
                         $userWallet->user_id = $prediction->user_id;
-                        $userWallet->comment = "برد پیشبینی " + $prediction->id;
-                        $userWallet->type = "1";
+                        $userWallet->comment = "WIN_" . $prediction->id;
+                        $userWallet->type = "WIN";
                         $userWallet->created_at = time();
 
                         $userWallet->save();
@@ -282,7 +275,7 @@ class CronController extends BaseController
                         UserProfile::updateAll(['wallet' => $newAmount], 'user_id=' . $prediction->user_id);
                     }
 
-                    Prediction::updateAll(['status' => 'Calc'], 'id=' . $prediction->id);
+                    Prediction::updateAll(['status' => 'Calc', 'updated_at' => time()], 'id=' . $prediction->id);
                 }
 
             }

@@ -60,7 +60,7 @@ AppAsset::register($this);
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="#">Betfoot</a>
+                <a class="navbar-brand" href="#">Afraa</a>
             </div>
 
             <!-- Collect the nav links, forms, and other content for toggling -->
@@ -136,9 +136,9 @@ AppAsset::register($this);
                     <li <?php if($currentUrl[0] == "site/support") { ?>class="active" <?php } ?>>
                         <a href="<?php echo Yii::$app->getUrlManager()->createUrl('site/support'); ?>">پشتیبانی</a>
                     </li>
-                    <li <?php if($currentUrl[0] == "site/rules") { ?>class="active" <?php } ?>>
-                        <a href="<?php echo Yii::$app->getUrlManager()->createUrl('site/rules'); ?>">قوانین و آموزش</a>
-                    </li>
+<!--                    <li --><?php //if($currentUrl[0] == "site/rules") { ?><!--class="active" --><?php //} ?><!-->
+<!--                        <a href="--><?php //echo Yii::$app->getUrlManager()->createUrl('site/rules'); ?><!--">قوانین و آموزش</a>-->
+<!--                    </li>-->
                 </ul>
             </div>
 
@@ -190,7 +190,7 @@ AppAsset::register($this);
 
         <!-- Copyright -->
         <div class="footer-copyright text-center">
-            حق حقوق متعلق به سایت می باشد.
+            تمام حقوق متعلق به سایت می باشد.
             © 1397 - 2018
         </div>
         <!-- Copyright -->

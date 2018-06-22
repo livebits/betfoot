@@ -44,7 +44,7 @@ class IndexController extends \yii\web\Controller
         }
 
         if ($fixtures_ids == "") {
-            return $this->Show($date);
+            return $this->Show($date, $isAjax);
         }
 
         $fixtures = Fixture::find()
@@ -295,7 +295,14 @@ class IndexController extends \yii\web\Controller
 
             $is_inplay = true;
             $fixtures = [];
-            return $this->render('index', compact('fixtures', 'is_inplay'));
+
+            if($isAjax){
+                return $this->renderAjax('index_partial', compact('fixtures', 'is_inplay'));
+
+            } else {
+
+                return $this->render('index', compact('fixtures', 'is_inplay'));
+            }
         }
 
         $fixtures = Fixture::find()
