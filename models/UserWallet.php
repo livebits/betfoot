@@ -22,6 +22,7 @@ class UserWallet extends \yii\db\ActiveRecord
     public static $WITHDRAW = 'WITHDRAW';
     public static $DEPOSIT = 'DEPOSIT';
     public static $PREDICT = 'PREDICT';
+    public static $AGENT = 'AGENT';
     public static $WIN = 'WIN';
 
     /**

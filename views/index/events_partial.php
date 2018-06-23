@@ -392,6 +392,11 @@
                                             }
                                             ?>
                                             </span>
+                                                <span class="text-center">
+                                                    <?php
+                                                    echo $game_odd->handicap;
+                                                    ?>
+                                            </span>
                                                 <span class="text-left" style="float: left;margin-left: 5px;">
                                                 <?= $game_odd->value ?>
                                             </span>

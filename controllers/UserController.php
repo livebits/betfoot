@@ -109,6 +109,29 @@ class UserController extends \yii\web\Controller
             $userWallet->save();
 
             UserProfile::updateUserWallet(-$user_price);
+
+            if(isset($userInfo->reagent_id)){
+
+                $userWallet = new UserWallet();
+                $userWallet->user_id = $userInfo->reagent_id;
+                $userWallet->amount = floor((20/100) * $user_price);
+                $userWallet->type = UserWallet::$AGENT;
+                $userWallet->comment = UserWallet::$AGENT . '_' . Yii::$app->user->id;
+                $userWallet->created_at = time();
+                $userWallet->save();
+
+                $agentProfile = UserProfile::find()
+                    ->where('user_id='.$userInfo->reagent_id)
+                    ->one();
+
+                if ($agentProfile->wallet){
+
+                    $newAmount = floor($agentProfile->wallet + (20/100) * $user_price);
+                } else {
+                    $newAmount = floor((20/100) * $user_price);
+                }
+                UserProfile::updateAll(['wallet' => $newAmount], 'user_id=' . $userInfo->reagent_id);
+            }
         }
 
         return $this->redirect(Yii::$app->getUrlManager()->createUrl('user').'?action=history');
@@ -187,6 +210,29 @@ class UserController extends \yii\web\Controller
             $userWallet->save();
 
             UserProfile::updateUserWallet(-$user_price);
+
+            if(isset($userInfo->reagent_id)){
+
+                $userWallet = new UserWallet();
+                $userWallet->user_id = $userInfo->reagent_id;
+                $userWallet->amount = floor((20/100) * $user_price);
+                $userWallet->type = UserWallet::$AGENT;
+                $userWallet->comment = UserWallet::$AGENT . '_' . Yii::$app->user->id;
+                $userWallet->created_at = time();
+                $userWallet->save();
+
+                $agentProfile = UserProfile::find()
+                    ->where('user_id='.$userInfo->reagent_id)
+                    ->one();
+
+                if ($agentProfile->wallet){
+
+                    $newAmount = floor($agentProfile->wallet + (20/100) * $user_price);
+                } else {
+                    $newAmount = floor((20/100) * $user_price);
+                }
+                UserProfile::updateAll(['wallet' => $newAmount], 'user_id=' . $userInfo->reagent_id);
+            }
         }
 
         return $this->redirect(Yii::$app->getUrlManager()->createUrl('user').'?action=history');
