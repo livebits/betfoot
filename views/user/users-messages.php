@@ -11,10 +11,11 @@ use yii\widgets\ListView;
     <?php
 
     $messages = (new \yii\db\Query())
-        ->select(['message.subject as subject', 'message.message as message', 'message.created_at as created_at',
+        ->select(['message.id as mid', 'message.status as status', 'message.subject as subject', 'message.message as message', 'message.created_at as created_at',
             'user_profile.firstName as firstName', 'user_profile.lastName as lastName'])
         ->from('message')
         ->leftJoin('user_profile', 'message.user_id = user_profile.user_id')
+        ->where('message.parent_id IS NULL')
         ->orderBy('message.id DESC');
 
     $dataProvider = new \yii\data\ActiveDataProvider([
