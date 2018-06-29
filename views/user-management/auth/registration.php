@@ -45,7 +45,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     <?= $form->field($model, 'mobile') ?>
 
-                    <?= $form->field($model, 'reagent') ?>
+                    <?= $form->field($model, 'reagent')->textInput([
+                            'value' => $_GET['uid'] ? $_GET['uid'] : ''
+                    ]) ?>
 
                     <?= $form->field($model, 'username')->textInput(['maxlength' => 50, 'autocomplete'=>'off', 'autofocus'=>true]) ?>
 

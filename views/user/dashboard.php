@@ -59,6 +59,9 @@
                         } else if($action == "users-messages"){
                             echo 'پیام های کاربران';
 
+                        } else if($action == "agents"){
+                            echo 'طرح نمایندگی';
+
                         }
                         ?>
 
@@ -112,6 +115,9 @@
 
                         } else if($action == "users-messages"){
                             echo $this->render('users-messages', compact('params'));
+
+                        } else if($action == "agents"){
+                            echo $this->render('agents', compact('params'));
 
                         }
                     ?>
@@ -262,6 +268,14 @@
                         <?php
                     }
                         ?>
+
+                    <div class="dash-menu-btn">
+                        <a <?php if ($action == "agents") { ?> class="active" <?php } ?>
+                                href="<?php echo Yii::$app->getUrlManager()->createUrl('user'); ?>?action=agents">
+                            طرح نمایندگی
+                        </a>
+                    </div>
+                    <div class="menu-divider"></div>
 
                     <div class="dash-menu-btn">
                         <a <?php if($action == "forget") {  ?> class="active" <?php } ?> href="<?php echo Yii::$app->getUrlManager()->createUrl('user'); ?>?action=forget">
