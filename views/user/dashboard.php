@@ -59,6 +59,9 @@
                         } else if($action == "users-messages"){
                             echo 'پیام های کاربران';
 
+                        } else if($action == "reply-message"){
+                            echo 'پاسخ پیام';
+
                         } else if($action == "agents"){
                             echo 'طرح نمایندگی';
 
@@ -118,6 +121,9 @@
 
                         } else if($action == "agents"){
                             echo $this->render('agents', compact('params'));
+
+                        } else if($action == "reply-message"){
+                            echo $this->render('reply-message', compact('params'));
 
                         }
                     ?>

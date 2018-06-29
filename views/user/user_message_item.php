@@ -16,7 +16,6 @@ height: 50px;line-height: 50px;padding: 0px 10px;">
             ?>
         </div>
         <div style="float: left">
-            <a href="<?=Yii::$app->getUrlManager()->createUrl('user/reply-message'); ?>?mid=<?=$model['mid']?>" class="btn btn-success">پاسخ</a>
             <?= \app\components\Jdf::jdate('Y/m/d H:i:s', $model['created_at']); ?>
         </div>
 
@@ -27,7 +26,7 @@ height: 50px;line-height: 50px;padding: 0px 10px;">
     <?php
         if(isset($model['status'])) {
 
-            $reply_messages = \app\models\Message::find()->where('parent_id=' . $model['mid'])->all();
+            $reply_messages = \app\models\Message::find()->where('parent_id=' . $model['id'])->all();
 
             foreach ($reply_messages as $reply_message) {
                 ?>

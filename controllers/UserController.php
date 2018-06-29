@@ -290,4 +290,34 @@ class UserController extends \yii\web\Controller
         }
     }
 
+    public function actionReplyMessage($mid) {
+
+        if(!isset($mid)){
+            return;
+        }
+        $message = Message::find()->where('id='.$mid)->one();
+        $request = Yii::$app->request;
+
+        if($request->isPost) {
+
+            $new_message = new Message();
+            $new_message->user_id = Yii::$app->user->id;
+            $new_message->parent_id = $mid;
+            $new_message->subject = 'پاسخ';
+            $new_message->message = $request->post('message');
+            $new_message->created_at = time();
+
+            Message::updateAll(['status' => '1'], ['id' => $mid]);
+
+            if($new_message->save()) {
+                return $this->redirect(Yii::$app->getUrlManager()->createUrl('user/index?action=users-messages&params=ok'));
+
+            }
+        }
+
+        $action = 'reply-message';
+        $params = $message;
+        return $this->render('dashboard', compact('action', 'params'));
+    }
+
 }

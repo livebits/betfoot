@@ -39,7 +39,7 @@ use yii\widgets\ListView;
 
     echo ListView::widget( [
         'dataProvider' => $dataProvider,
-        'itemView' => 'message_item',
+        'itemView' => 'user_message_item',
     ] );
     ?>
 
