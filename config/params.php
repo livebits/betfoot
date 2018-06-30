@@ -3,5 +3,5 @@
 return [
     'adminEmail' => 'admin@example.com',
 
-    'betfoot_token' => 'R5PptnTdLXNKBnguUr81KrQl2h6VAp6ZF78WFoHI8hJZUKXWX5esotfNQzY0'
+    'betfoot_token' => 'CX14JTcdP4NLf7mehZJizbHUvzBdOvTNv2c0l3TmdiB5suUgdW2VwT8prw77'
 ];

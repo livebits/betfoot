@@ -235,24 +235,51 @@
                 $home_odds = 0;
                 $X_odds = 0;
                 $away_odds = 0;
+                $foundInplayOdds = false;
                 foreach ($odds as $odd) {
-                    if ($odd->odds_id == 1) {
+                    //full time result
+                    if ($odd->odds_id == 28075) {
                         $bookmaker = json_decode($odd->bookmaker);
                         $game_odds = $bookmaker->data[0]->odds->data;
 
                         foreach ($game_odds as $game_odd) {
-                            if ($game_odd->label == '1') {
+                            if ($game_odd->label == 'Home') {
                                 $home_odds = $game_odd->value;
 
-                            } else if ($game_odd->label == 'X') {
+                            } else if ($game_odd->label == 'Draw') {
                                 $X_odds = $game_odd->value;
 
-                            } else if ($game_odd->label == '2') {
+                            } else if ($game_odd->label == 'Away') {
                                 $away_odds = $game_odd->value;
                             }
                         }
 
+                        $foundInplayOdds = true;
                         break;
+                    }
+                }
+
+                if(!$foundInplayOdds) {
+                    foreach ($odds as $odd) {
+
+                        if ($odd->odds_id == 1) {
+                            $bookmaker = json_decode($odd->bookmaker);
+                            $game_odds = $bookmaker->data[0]->odds->data;
+
+                            foreach ($game_odds as $game_odd) {
+                                if ($game_odd->label == '1') {
+                                    $home_odds = $game_odd->value;
+
+                                } else if ($game_odd->label == 'X') {
+                                    $X_odds = $game_odd->value;
+
+                                } else if ($game_odd->label == '2') {
+                                    $away_odds = $game_odd->value;
+                                }
+                            }
+
+                            break;
+                        }
                     }
                 }
 

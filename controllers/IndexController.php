@@ -472,9 +472,33 @@ class IndexController extends \yii\web\Controller
             }
 //            if(!isset($fixture->odds) || (isset($fixture->odds) && count($fixture->odds) == 0)) {
             try {
-//                $fixture_odds = $client->fixtures()->oddsInPlay($fixture->fixture_id);
                 $fixture_odds = $client->fixtures()->oddsByBookmaker($fixture->fixture_id, 2);
 
+                foreach ($fixture_odds as $odds_obj) {
+
+                    $odds = null;
+                    foreach ($fixture->odds as $savedOdds) {
+                        if ($savedOdds->odds_id == $odds_obj->id) {
+
+                            $odds = $savedOdds;
+                            break;
+                        }
+                    }
+
+                    if (!$odds) {
+                        $odds = new Odds();
+                        $odds->odds_id = $odds_obj->id;
+                        $odds->fixture_id = $fixture->fixture_id;
+                        $odds->name = $odds_obj->name;
+                    }
+
+                    $odds->bookmaker = json_encode($odds_obj->bookmaker);
+
+                    $odds->save();
+
+                }
+
+                $fixture_odds = $client->fixtures()->oddsInPlay($fixture->fixture_id);
                 foreach ($fixture_odds as $odds_obj) {
 
                     $odds = null;
