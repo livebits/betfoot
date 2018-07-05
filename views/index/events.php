@@ -200,6 +200,20 @@ $this->title = "پیش بینی فوتبال";
 
                                 continue;
                             }
+
+                            if($fixture->minute > 45 || $fixture->status == "HT"){
+
+                                if($odd->odds_id == 975932 || $odd->odds_id == 975926
+                                    || $odd->odds_id == 37 || $odd->odds_id == 975916
+                                    || $odd->odds_id == 38 || $odd->odds_id == 975925
+                                    || $odd->odds_id == 31387 || $odd->odds_id == 31379
+                                    || $odd->odds_id == 31359 || $odd->odds_id == 31355
+                                    || $odd->odds_id == 976209 || $odd->odds_id == 976226
+                                    || $odd->odds_id == 976389
+                                ) {
+                                    continue;
+                                }
+                            }
                             ?>
 
                             <tr class="match_group_header">

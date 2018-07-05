@@ -711,6 +711,17 @@ class IndexController extends \yii\web\Controller
 
 //            if(!isset($fixture->odds) || (isset($fixture->odds) && count($fixture->odds) == 0)) {
         try {
+            $delete_odds = false;
+            foreach ($fixture->odds as $odd) {
+                if($odd->odds_id == 28075){
+                    $delete_odds = true;
+                    break;
+                }
+            }
+
+            if($delete_odds)
+                Odds::deleteAll(['fixture_id' => $fixture->fixture_id]);
+
             $fixture_odds = $client->fixtures()->oddsByBookmaker($fixture->fixture_id, 2);
 
             foreach ($fixture_odds as $odds_obj) {
